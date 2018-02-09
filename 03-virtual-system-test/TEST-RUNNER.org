@@ -5,9 +5,9 @@
   - [[Iterate Test Cases][Iterate Test Cases]]
     - [[Test Case Input Directory and Interface to Test][Test Case Input Directory and Interface to Test]]
     - [[Iterate Test Case =iterateApiTraceSteps=][Iterate Test Case =iterateApiTraceSteps=]]
-  - [[Schema Mapper][Schema Mapper]]
+  - [[Map from Formal Model to Implementation][Map from Formal Model to Implementation]]
     - [[Map Data Values from Formal Model to Implementation][Map Data Values from Formal Model to Implementation]]
-    - [[Schema Map from Formal Model to Implementation][Schema Map from Formal Model to Implementation]]
+    - [[Map Schema from Formal Model to Implementation][Map Schema from Formal Model to Implementation]]
   - [[Action =:before TestCase=][Action =:before TestCase=]]
   - [[Action =:request Api=][Action =:request Api=]]
   - [[Action =:response API=][Action =:response API=]]
@@ -146,7 +146,7 @@ end # iterateTestCases
  #+END_SRC
 
 
-** Schema Mapper
+** Map from Formal Model to Implementation
 
 *** Map Data Values from Formal Model to Implementation
 
@@ -175,7 +175,7 @@ end
  #+END_SRC
 
 
-*** Schema Map from Formal Model to Implementation
+*** Map Schema from Formal Model to Implementation
 
 Schema transformations use [[https://github.com/deseretbook/hashformer][hashformer]] GEM, [[https://blog.mikebourgeous.com/2016/11/22/hashformer-transform-data-in-ruby/][a Ruby Hash-based DSL]], for
 transforming data from formal model space to implementation space

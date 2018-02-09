@@ -93,8 +93,9 @@ and observe output =No error has been found=:
 * Generatetate API Trace for Possibility Operator =isCompanyRegistered=
 
 Run model checking for possibility operator =isCompanyRegistered= in
-setup =setup_companyRegistered= using the same formal model, which was
-checked for correctness [[#check-for-correctness][above]].  
+setup =setup_companyRegistered= using the same formal model in file
+=gen/setup_companyRegistered/tla/model.tla=, which was checked for
+correctness [[#check-for-correctness][above]].
 
 #+BEGIN_SRC sh :eval no-export :results output :exports both
 # config env
@@ -119,7 +120,7 @@ has been observed in the state space generated for the formal model.
 
 Create executable self extracting archive for the /Model Checker Error
 Log/, which was created when running the model checker with
-=isCompanyRegistered=:
+=POSSIBLITY= = =isCompanyRegistered=:
 
 #+name: tla-trace-arch-1
 #+BEGIN_SRC sh :eval no-export :results output :exports both
