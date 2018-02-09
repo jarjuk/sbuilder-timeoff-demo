@@ -28,7 +28,7 @@ together and controls formal model generation.
 
 /API Traces/, parsed from /Model Checker Error Logs/, are
 deployed to =../stage= directory to be used as input to /Virtual
-System Testing/. Finally,
+System Testing/. 
 
 
 
