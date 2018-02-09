@@ -1,4 +1,7 @@
 2018-02-09  jj  <jj@horsti>
 
+	* 03-virtual-system-test/TEST-RUNNER.org (Sbuilder): Clarify
+	headers
+
 	* docs/_config.yml (baseurl): use hyphens `/sbuilder-timeoff-demo`
 
