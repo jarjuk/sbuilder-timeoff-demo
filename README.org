@@ -1,6 +1,6 @@
 * Specification Driven Development Demo
 
-This [[http://jarjuk.github.io/sbuilder-timeoff-demo/][Specification Driven Development Demo]] presents a realization of a
+This [[http://jarjuk.github.io/sbuilder-timeoff-demo/index.html][Specification Driven Development Demo]] presents a realization of a
 [[https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#development-architecture][development architecture]] to help in managing IT on-line openness.
 
 Particularly, it

@@ -15,6 +15,7 @@
   - [[System Adaptors][System Adaptors]]
     - [[Read system state =readDatabase=][Read system state =readDatabase=]]
     - [[Check system state =checkDatabase=][Check system state =checkDatabase=]]
+- [[Test Runner Implementation][Test Runner Implementation]]
 
 * Test Runner Overview
 
@@ -361,7 +362,12 @@ end
 
 
 
-* Test Runner Implementation 					   :noexport:
+* Test Runner Implementation
+
+For the implementation refer to [[https://github.com/jarjuk/sbuilder-timeoff-demo/blob/master/03-virtual-system-test/spec/virtual-system-test/test-runner.rb][code]] in GitHub repo.
+
+
+** Code								   :noexport:
 
 #+BEGIN_SRC ruby :eval no :noweb yes :tangle spec/virtual-system-test/test-runner.rb
 
