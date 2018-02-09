@@ -1,0 +1,52 @@
+---
+layout: page
+title: Formal Modeling
+permalink: 02-formal-modeling.html
+---
+
+<ul class="org-ul">
+<li><a href="02-formal-modeling.html">Formal Modeling</a>
+
+<ul class="org-ul">
+<li><a href="02-01-INSTALL.html">Instructions to Install Formal Modeling Environment</a></li>
+
+<li><a href="02-02-MODEL.html">Instructions to Create Formal Model</a></li>
+
+<li><a href="02-03-RUN.html">Instructions to Run Model Checker and Create Api Trace Archive</a></li>
+</ul></li>
+</ul>
+
+<p>
+Formal model is composed of <i>Application Model</i>, <i>Environment Setup</i>
+and <i>Correctness</i> criteria.  <i>Application Model</i> is constructed using
+TLA+ language <i>Specification Snippets</i> and by translating API
+specification, <code>timeoff-swagger.yaml</code> in <code>../stage</code> directory, to
+<i>Formal Model Interfaces</i>. <i>Resolvers</i> determine domains for formal
+data model elements, with <i>Environment Setup Domains</i> giving value
+sets for the domains. <i>Environment Setup Steps</i> define interface
+messages environment sends to the <i>Application Model</i>. <i>Correctness</i>
+criteria are used to verify that the <i>Formal Model</i> meets the
+specified requirements.
+</p>
+
+<p>
+<i>Environment Setup</i> may also have <i>Possibility</i> operators, which are
+used to generate <i>Model Checker Error Logs</i> to demonstrate that
+behavior given by the <i>Possibility</i> operator exists in the <i>Formal
+Model</i>. Configuration file <i>sbuilder.yaml</i> combines all of the above
+together and controls formal model generation.
+</p>
+
+<p>
+<i>API Traces</i>, parsed from <i>Model Checker Error Logs</i>, are
+deployed to <code>../stage</code> directory to be used as input to <i>Virtual
+System Testing</i>. Finally,
+</p>
+
+
+
+
+<div class="figure">
+<p><img src="pics/02-dev-overview.jpg" alt="02-dev-overview.jpg" />
+</p>
+</div>

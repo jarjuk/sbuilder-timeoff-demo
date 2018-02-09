@@ -1,0 +1,31 @@
+#+OPTIONS: toc:nil tags:nil               no default TOC
+#+OPTIONS: H:3
+#+BEGIN_HTML
+---
+layout: page
+title: Schema and API Design
+permalink: 01-schema-and-api-design.html
+---
+#+END_HTML
+
+Schema design creates /Logical Schema/ composed of /ER diagram/ and
+/Entity/ definitions. In API design, /Logical Schema/ is mapped to an
+/External Schema/ as =timeoff-swagger.yaml= using [[https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md][swagger 2.0]] format
+of [[https://swagger.io/specification/][Open API specification]]. This API specification is deployed into the
+staging directory =../stage=.
+
+
+[[file:pics/01-dev-overview.jpg]]
+
+
+#+INCLUDE: "../01-schema-and-api-design/DESIGN.org" 
+
+
+
+* Fin								   :noexport:
+
+** Emacs variables
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

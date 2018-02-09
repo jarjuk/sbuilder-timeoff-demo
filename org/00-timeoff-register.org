@@ -1,0 +1,23 @@
+#+OPTIONS: toc:nil num:nil
+#+BEGIN_HTML
+---
+layout: default
+page_title: Timeoff Register New Company
+# permalink: timeoff-register.html
+---
+#+END_HTML
+
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/org/00-timeoff-menu-hdr.org" 
+
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/org/00-timeoff-menu.org" 
+
+* Timeoff Register New Company
+
+A form to enter registration information for a company opens. Fill in
+the form.
+
+[[file:pics/timeoff-register.jpg]]
+
+When all fields have been correctly entered, click [[file:00-timeoff-register-ok.org][Create]] to open a
+new [[file:00-timeoff-register-ok.org][window]] with a confirmation of successful registration. Failing to
+fill the form correctly results to an error.

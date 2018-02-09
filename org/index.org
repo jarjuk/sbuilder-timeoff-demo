@@ -1,0 +1,97 @@
+#+OPTIONS: toc:nil tags:nil num:nil
+#+BEGIN_HTML
+---
+layout: home
+page_title: Specification Driven Development Demo
+permalink: index.html
+---
+#+END_HTML
+
+
+# INCLUDE: "~/work/sbuilder-timeoff-demo/org/00-menu.org" 
+
+* Need for Specification Driven Development?
+
+In the future IT environment,
+#+BEGIN_SRC feature
+Given  Technology trend such as 'micro services'
+And    Technology trend such as 'block chain'
+And    Technology trend such as 'IOT'
+And    Business environment trend  'increased openess of IT systems'
+And    Business environment trend  'need for new innovations'
+When   In the future 'implementations become more complex'
+And    In the future 'having more interfaces open for malicious attacks'
+# Then   Risk of Unfortunate IT failures
+#+END_SRC
+
+companies need to [[https://jarjuk.wordpress.com/2017/01/01/sbuilder-roadmap-v2-part1/#orgheadline3][manage their IT on-line openess]] carefully to avoid
+the =Risk of Unfortunate IT failures=. 
+
+[[https://github.com/jarjuk/sbuilder-timeoff-demo][Specification Driven Development]], with adequate [[https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#development-architecture][development
+architecture]] and [[https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#process][development process]], [[https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#orgheadline1][could]] help companies in managing
+their IT on-line openess. As the [[https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#orgheadline4][result]], expect better systems due to
+understanding the problem better, getting the design right, and being
+able to write better code. Particulary, in the context of this demo,
+expect savings in test management, when using formal model to generate
+API traces, which represent end-to-end scenarios executing across
+system services in the formal model, and using these API traces to
+create unit tests on implementation. Savings in test management are
+realized, when, after executing each of the individual unit tests, the
+aggregate result can be interpreted as an execution of a "virtual"
+system test on the composite system - considerably easier than
+managing the execution a system test as a single unit.
+
+
+
+* Objective of the Specification Driven Development Demo
+
+This =Specification Driven Development Demo= presents a realization of
+a [[https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#development-architecture][development architecture]] to help in managing IT on-line openness.
+
+Particularly, it
+
+- aims at pointing out, how /Specification Driven Development/ can be
+  integrated with an existing legacy implementation
+- puts forward design artifacts and how these artifacts are
+  transferred from design step to another
+- explains, how to setup development architecture supporting
+  /Specification Driven Development/
+
+The demo uses an existing application (=timeoff-management=) as a
+target implementation. Only [[file:00-timeoff-demo.org][one simple interface]]
+(=/registerCompany(post)=) is specified to keep focus on the factors
+enabling /Specification Driven Development/.
+
+
+* Overview of Specification Driven Development Demo
+
+The diagram below shows main architectural elemets corresponding
+/Specification Driven Development/ design steps:
+
+- [[file:01-schema-and-api-design.org][Schema and API Design]]
+- [[file:02-formal-modeling.org][Formal Modeling]]
+- [[file:03-virtual-system-test.org][Virtual Systems Testing]]
+
+The diagram depicts also, how =timeoff-management= -application, used
+in this =Specification Driven Development Demo=, is retrived from a
+[[https://github.com/timeoff-management/application][GitHub repository]].
+
+Finally, the diagram presents directory =../stage/=, which is used to
+transfer design artifacts between design steps.
+
+- =timeoff-swagger.yaml=: specification of interface
+  =/registerCompany(post)= created in /Schema and API Design/
+- =API Trace=: Formal model execution traces created in /Formal
+  Modeling/ deployed in the the form of self extracting archive files
+  to the staging directory
+
+
+[[file:pics/00-dev-overview.jpg]]
+
+
+* Code
+
+Demo is avaibale in a [[https://github.com/jarjuk/sbuilder-timeoff-demo][GitHub repository]] with MIT licence.
+
+
+

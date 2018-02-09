@@ -1,0 +1,557 @@
+---
+layout: default
+# title: No title should not show up in header
+permalink: 02-02-MODEL.html
+---
+
+<h1 class="post-title">Formal Modeling</h1>
+
+<ul class="org-ul">
+<li><a href="02-formal-modeling.html">Formal Modeling</a>
+
+<ul class="org-ul">
+<li><a href="02-01-INSTALL.html">Instructions to Install Formal Modeling Environment</a></li>
+
+<li><a href="02-02-MODEL.html">Instructions to Create Formal Model</a></li>
+
+<li><a href="02-03-RUN.html">Instructions to Run Model Checker and Create Api Trace Archive</a></li>
+</ul></li>
+</ul>
+
+
+<div id="outline-container-orgheadline26" class="outline-2">
+<h2 id="orgheadline26"><span class="section-number-2">1</span> Instructions to Create Formal Model</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12"><span class="section-number-3">1.1</span> Formal Model Elements</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li><a href="#orgheadline1">Application Model</a>
+<ul class="org-ul">
+<li><a href="#orgheadline2">Spefication Snippets</a>
+<ul class="org-ul">
+<li><a href="#orgheadline3">Model State</a></li>
+<li><a href="#orgheadline4">Model Service</a></li>
+<li><a href="#orgheadline5">Actions and Operators</a></li>
+</ul></li>
+<li><a href="#orgheadline6">Correctness Criteria</a>
+<ul class="org-ul">
+<li><a href="#correct_Database">Invariant: verify formal model state</a></li>
+</ul></li>
+<li><a href="#orgheadline7">Possibility Operators</a>
+<ul class="org-ul">
+<li><a href="#isCompanyRegistered">Service <code>/registerCompany(post)</code> Executes Successfully</a></li>
+<li><a href="#isCompanyRegisteredFails">Service <code>/registerCompany(post)</code> Execution Fails</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#orgheadline8">Environment Setup</a>
+<ul class="org-ul">
+<li><a href="#setup_companyRegistered">Setup <code>cnf/setup_companyRegistered.yaml</code></a></li>
+</ul></li>
+<li><a href="#orgheadline9">Sbuilder configuration</a>
+<ul class="org-ul">
+<li><a href="#resolver">Create resolver <code>cnf/timeoff-resolver.yaml</code></a></li>
+<li><a href="#orgheadline10">Sbuilder configuration  <code>cnf/sbuider.yaml</code></a></li>
+</ul></li>
+<li><a href="#orgheadline11">Smoke Run Using Setup <code>setup1</code></a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.2</span> Application Model</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-orgheadline2" class="outline-4">
+<h4 id="orgheadline2"><span class="section-number-4">1.2.1</span> Spefication Snippets</h4>
+<div class="outline-text-4" id="text-1-2-1">
+</div><div id="outline-container-orgheadline3" class="outline-5">
+<h5 id="orgheadline3"><span class="section-number-5">1.2.1.1</span> Model State</h5>
+<div class="outline-text-5" id="text-1-2-1-1">
+</div><ol class="org-ol"><li><a id="orgheadline13"></a>Model Entity <code>Users</code><br  /><div class="outline-text-6" id="text-1-2-1-1-1">
+<p>
+State of entity <code>Users</code> is modeled using tla+ module
+<code>tla/Timeoff_Users.tla</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">\* State variable Timeoff_Users initialized to an empty set
+Timeoff_Users = {};
+</pre>
+</div>
+</div></li>
+
+
+<li><a id="orgheadline14"></a>Model Entity <code>Companies</code><br  /><div class="outline-text-6" id="text-1-2-1-1-2">
+<p>
+State of entity <code>Companies</code> is modeled using tla+ module
+<code>tla/Timeoff_Companies.tla</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">\* State variable Timeoff_Companies initialized to an empty set
+Timeoff_Companies = {};
+</pre>
+</div>
+</div></li></ol>
+</div>
+
+
+
+<div id="outline-container-orgheadline4" class="outline-5">
+<h5 id="orgheadline4"><span class="section-number-5">1.2.1.2</span> Model Service</h5>
+<div class="outline-text-5" id="text-1-2-1-2">
+</div><ol class="org-ol"><li><a id="orgheadline15"></a><code>tla/TimeoffRegisterCompany.tla</code><br  /><div class="outline-text-6" id="text-1-2-1-2-1">
+<div class="org-src-container">
+
+<pre class="src src-text">(*
+ * Service entry point for interface /registerCompany(post).
+ * Calls service implementation in procedure 
+ * proc_TimeoffRegisterCompany
+*)
+macro TimeoffRegisterCompany( input ) {
+
+      call proc_TimeoffRegisterCompany( input );
+
+}
+</pre>
+</div>
+</div></li>
+
+
+<li><a id="orgheadline16"></a><code>tla/proc_TimeoffRegisterCompany.tla</code><br  /><div class="outline-text-6" id="text-1-2-1-2-2">
+<div class="org-src-container">
+
+<pre class="src src-text">(*
+ * Service implementation for interface /registerCompany(post).
+ * Adds user and company entities for valid input and returns status 200 for 
+ * valid input. For invalid input return status "400".
+*)
+procedure proc_TimeoffRegisterCompany( input_proc_TimeoffRegisterCompany ) {
+
+proc_TimeoffRegisterCompany_start:
+
+  if (      valid_User( input_proc_TimeoffRegisterCompany )  
+       /\   valid_Company( input_proc_TimeoffRegisterCompany )  
+
+     ) {
+      TimeoffAddUser( 
+          [ user_name |-&gt; input_proc_TimeoffRegisterCompany.user_name, 
+            user_lastname |-&gt; input_proc_TimeoffRegisterCompany.user_lastname,
+            user_email |-&gt; input_proc_TimeoffRegisterCompany.user_email
+          ] );
+      TimeoffAddCompany( 
+          [ 
+            company_name |-&gt; input_proc_TimeoffRegisterCompany.company_name 
+          ] );
+
+      InfrastructureServiceReturn( "/registerCompany(post)", "status_200", Nil );
+  }
+  else {
+      InfrastructureServiceReturn( "/registerCompany(post)", "status_400", Nil );
+  };
+
+proc_TimeoffRegisterCompany_exit:
+  return;
+}
+</pre>
+</div>
+</div></li></ol>
+</div>
+
+
+<div id="outline-container-orgheadline5" class="outline-5">
+<h5 id="orgheadline5"><span class="section-number-5">1.2.1.3</span> Actions and Operators</h5>
+<div class="outline-text-5" id="text-1-2-1-3">
+</div><ol class="org-ol"><li><a id="orgheadline17"></a>Action: Add new <code>user</code><br  /><div class="outline-text-6" id="text-1-2-1-3-1">
+<p>
+In file <code>tla/TimeoffAddUser.tla</code> 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">(*
+ * Add new user entry to model state - if it does not exist
+*)
+macro TimeoffAddUser( user ) {
+    
+    if ( ~ user \in Timeoff_Users ) {
+          Timeoff_Users := Timeoff_Users \union { user };
+    };
+}
+</pre>
+</div>
+</div></li>
+
+
+<li><a id="orgheadline18"></a>Action: Add new <code>company</code><br  /><div class="outline-text-6" id="text-1-2-1-3-2">
+<p>
+In file <code>tla/TimeoffAddCompany.tla</code> 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">(*
+ * Add new companry entry to model state - if it does not exist
+*)
+macro TimeoffAddCompany( company ) {
+    
+    if ( ~ company \in Timeoff_Companies ) {
+          Timeoff_Companies := Timeoff_Companies \union { company };
+    };
+}
+</pre>
+</div>
+</div></li>
+
+
+
+<li><a id="valid_User"></a><a id="orgheadline19"></a>Operator: validate <code>User</code> entity<br  /><div class="outline-text-6" id="text-valid_User">
+<p>
+Operator <code>tla/valid_User.tla</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">(*
+ * Validate data model entry user
+ *)
+valid_User( user ) ==
+                  user # Nil
+             /\   user.user_name # Nil
+             /\   user.user_lastname # Nil
+             /\   user.user_email # Nil
+</pre>
+</div>
+</div></li>
+
+
+<li><a id="valid_Company"></a><a id="orgheadline20"></a>Operator: Validate <code>Company</code> Entity<br  /><div class="outline-text-6" id="text-valid_Company">
+<p>
+Operator <code>tla/valid_Company.tla</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">(*
+ * Validate data model entry companry
+ *)
+valid_Company( co ) ==
+                  co # Nil
+             /\   co.company_name # Nil
+</pre>
+</div>
+</div></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="orgheadline6"><span class="section-number-4">1.2.2</span> Correctness Criteria</h4>
+<div class="outline-text-4" id="text-1-2-2">
+</div><div id="outline-container-orgheadline21" class="outline-5">
+<h5 id="correct_Database"><a id="orgheadline21"></a><span class="section-number-5">1.2.2.1</span> Invariant: verify formal model state</h5>
+<div class="outline-text-5" id="text-correct_Database">
+<p>
+Verify formal model state in <code>tla/correct_Database.tla</code> as given by
+operators <a href="#valid_User">valid User</a> and <a href="#valid_Company">valid Company</a>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">(*
+ * All user and company entries in formal model state are valid
+*)
+correct_Database == \A user \in Timeoff_Users: valid_User(user)
+                 /\ \A co \in Timeoff_Companies: valid_Company(co)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="orgheadline7"><span class="section-number-4">1.2.3</span> Possibility Operators</h4>
+<div class="outline-text-4" id="text-1-2-3">
+</div><div id="outline-container-orgheadline22" class="outline-5">
+<h5 id="isCompanyRegistered"><a id="orgheadline22"></a><span class="section-number-5">1.2.3.1</span> Service <code>/registerCompany(post)</code> Executes Successfully</h5>
+<div class="outline-text-5" id="text-isCompanyRegistered">
+<p>
+File  <code>tla/isCompanyRegistered</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">(*
+ * Evaluate TRUE whe service /registerCompany(post)
+ * succeeds i.e. return status 200.
+*)
+isCompanyRegistered == InfrastructureServiceGetStatus("/registerCompany(post)") = "status_200"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline23" class="outline-5">
+<h5 id="isCompanyRegisteredFails"><a id="orgheadline23"></a><span class="section-number-5">1.2.3.2</span> Service <code>/registerCompany(post)</code> Execution Fails</h5>
+<div class="outline-text-5" id="text-isCompanyRegisteredFails">
+<p>
+In file <code>tla/isCompanyRegisteredFails</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text"> (*
+ * Evaluate TRUE whe service /registerCompany(post)
+ * fails  i.e. returns status 400.
+ *)
+  isCompanyRegisteredFails == InfrastructureServiceGetStatus("/registerCompany(post)") = "status_400"
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">1.3</span> Environment Setup</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-orgheadline24" class="outline-4">
+<h4 id="setup_companyRegistered"><a id="orgheadline24"></a><span class="section-number-4">1.3.1</span> Setup <code>cnf/setup_companyRegistered.yaml</code></h4>
+<div class="outline-text-4" id="text-setup_companyRegistered">
+<p>
+The very contrived environmen setup below defines cardinality value
+<code>1</code> to domain <code>default_domain</code>, <a href="#resolver">resolved</a> below. In the formal model,
+this translates to a definition of a set with one element plus a
+special value <code>Nil</code> for domain <code>default_domain</code>. Value <code>Nil</code> represent
+missing data in the formal model.
+</p>
+
+<p>
+The environment setup defines also one step with interface call to
+<code>/registerCompany(post)</code>. The definition does not restrict input to
+the interface call, and during model checking, environment model uses
+all possible value combinations for the interface call.
+</p>
+
+
+
+<div class="org-src-container">
+
+<pre class="src src-yaml">  - <span style="color: #a0522d;">domain-extension</span>:
+
+      <span style="color: #b22222;"># </span><span style="color: #b22222;">superflous cardinality 1 is the default</span>
+    - <span style="color: #a0522d;">domain</span>: default_domain
+      <span style="color: #a0522d;">cardinality</span>: 1
+
+  - <span style="color: #a0522d;">step-extension</span>:
+    - <span style="color: #a0522d;">interface</span>: /registerCompany(post)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><span class="section-number-3">1.4</span> Sbuilder configuration</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-orgheadline25" class="outline-4">
+<h4 id="resolver"><a id="orgheadline25"></a><span class="section-number-4">1.4.1</span> Create resolver <code>cnf/timeoff-resolver.yaml</code></h4>
+<div class="outline-text-4" id="text-resolver">
+<p>
+A very contrived resolver maps all variables to one <code>deafult_domain</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-yaml">    <span style="color: #b22222;"># </span><span style="color: #b22222;">This matches everyting - with default domain</span>
+    -    <span style="color: #a0522d;">Name</span>: default-resolver
+         <span style="color: #a0522d;">Matcher</span>: <span style="color: #228b22;">!ruby/regexp</span> /.*/
+         <span style="color: #a0522d;">Rules</span>: 
+          - <span style="color: #a0522d;">Matcher</span>: <span style="color: #228b22;">!ruby/regexp</span> /.*/
+            <span style="color: #a0522d;">Domain</span>: default_domain
+</pre>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="orgheadline10"><span class="section-number-4">1.4.2</span> Sbuilder configuration  <code>cnf/sbuider.yaml</code></h4>
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+The YAML configuration below combiness elements, presented in this
+document, and controls formal model translation.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-yaml"><span style="color: #a0522d;">preferences</span>:
+  <span style="color: #a0522d;">debug-output</span>: <span style="color: #008b8b;">false</span>
+
+<span style="color: #a0522d;">extend</span>:
+
+<span style="color: #a0522d;">resolvers</span>:
+    - <span style="color: #a0522d;">url</span>: cnf/timeoff-resolver.yaml
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Use sbuilder API loader extension point      </span>
+<span style="color: #a0522d;">interfaces</span>:
+    -  <span style="color: #a0522d;">className</span>: Sbuilder::ParamSetLoaderSwagger
+       <span style="color: #a0522d;">infrastructureServices</span>: <span style="color: #008b8b;">true</span>
+       <span style="color: #a0522d;">url</span>: ../stage/timeoff-swagger.yaml
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Use sbuilder Snippet loader extension point            </span>
+<span style="color: #a0522d;">snippets</span>:
+  - <span style="color: #a0522d;">className</span>: Sbuilder::SnippetLoaderSimple
+    <span style="color: #a0522d;">snippets</span>:
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Load </span>
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: Timeoff_Users
+      <span style="color: #a0522d;">url</span>: tla/Timeoff_Users.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: Timeoff_Companies
+      <span style="color: #a0522d;">url</span>: tla/Timeoff_Companies.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: TimeoffAddUser
+      <span style="color: #a0522d;">url</span>: tla/TimeoffAddUser.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: TimeoffAddCompany
+      <span style="color: #a0522d;">url</span>: tla/TimeoffAddCompany.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: proc_TimeoffRegisterCompany
+      <span style="color: #a0522d;">url</span>: tla/proc_TimeoffRegisterCompany.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: TimeoffRegisterCompany
+      <span style="color: #a0522d;">url</span>: tla/TimeoffRegisterCompany.tla
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Define</span>
+    - <span style="color: #a0522d;">metatype</span>: service_implementation
+      <span style="color: #a0522d;">appName</span>: /registerCompany(post)
+      <span style="color: #a0522d;">name</span> : TimeoffRegisterCompany
+  - <span style="color: #a0522d;">className</span>: Sbuilder::SnippetLoaderSimple
+    <span style="color: #a0522d;">snippets</span>:
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: isCompanyRegistered
+      <span style="color: #a0522d;">url</span>: tla/isCompanyRegistered.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: isCompanyRegisteredFails
+      <span style="color: #a0522d;">url</span>: tla/isCompanyRegisteredFails.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: correct_Database
+      <span style="color: #a0522d;">url</span>: tla/correct_Database.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: valid_User
+      <span style="color: #a0522d;">url</span>: tla/valid_User.tla
+    - <span style="color: #a0522d;">metatype</span>: framework-svc
+      <span style="color: #a0522d;">appName</span>: valid_Company
+      <span style="color: #a0522d;">url</span>: tla/valid_Company.tla
+  
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Configure setup       </span>
+<span style="color: #a0522d;">setups</span>:
+    - <span style="color: #a0522d;">setupDirectory</span>: setup1
+    - <span style="color: #a0522d;">setupDirectory</span>: setup_companyRegistered
+      <span style="color: #a0522d;">possibilities</span>:
+         - isCompanyRegistered
+         - isCompanyRegisteredFails
+      <span style="color: #a0522d;">extensions</span>:
+         - <span style="color: #a0522d;">url</span>: cnf/setup_companyRegistered.yaml
+
+
+<span style="color: #a0522d;">invariants</span>:
+     - <span style="color: #a0522d;">correct_Database</span>: user and companry entries valid
+</pre>
+</div>
+
+
+<p>
+The configuration above
+</p>
+
+<ul class="org-ul">
+<li>references YAML <a href="#resolver">resolver</a> in file <code>cnf/timeoff-resolver.yaml</code></li>
+
+<li>references Swagger API interface definition in file
+<code>../stage/timeoff-swagger.yaml</code></li>
+
+<li>loads TLA+ language snippets into Sbuilder formal model using a
+plugin <code>Sbuilder::SnippetLoaderSimple</code></li>
+
+<li>associates interface <code>/registerCompany(post)</code> with TLA+ snippet 
+<code>TimeoffRegisterCompany</code></li>
+
+<li>instantiates plugin object <code>ethLoader</code> from class
+<code>Sbuilder::Eth::Plugin::Plugin</code> implemented in <code>sbuilder-eth</code>
+ GEM.
+
+<ul class="org-ul">
+<li>defines an empty setup <code>setup1</code> and <code>setup_companyRegistered</code>,
+configured <a href="#setup_companyRegistered">above</a>. Setup setup<sub>companyRegistered</sub> defines two
+possibility operators <a href="#isCompanyRegistered">isCompanyRegistered</a> and
+<a href="#isCompanyRegisteredFails">isCompanyRegisteredFails</a></li>
+
+<li>activates operator <a href="#correct_Database">correct<sub>Database</sub></a> as an invariant to hold
+universally</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">1.5</span> Smoke Run Using Setup <code>setup1</code></h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+To validate that a formal model can be succesfully
+</p>
+
+<ul class="org-ul">
+<li>generated to TLA+language,</li>
+<li>processed by TLA+tools <a href="https://lamport.azurewebsites.net/tla/pluscal.html">PlusCal</a> ,</li>
+<li>and model checked by TLA+tools <a href="https://lamport.azurewebsites.net/tla/tlc.html">TLC</a>,</li>
+</ul>
+
+<p>
+run the following command
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock1">(<span style="color: #a0522d;">SETUP</span>=setup1; <span style="color: #a0522d;">TLATOOLS_JAR</span>=$(<span style="color: #ff00ff;">pwd</span>)/java/tla2tools.jar; <span style="color: #8b2252;">\</span>
+   bundle exec sbuilder.rb generate $<span style="color: #a0522d;">SETUP</span>;  <span style="color: #8b2252;">\</span>
+   <span style="color: #483d8b;">cd</span> gen/$<span style="color: #a0522d;">SETUP</span>/tla &amp;&amp;  <span style="color: #8b2252;">\</span>
+   java -cp $<span style="color: #a0522d;">TLATOOLS_JAR</span> pcal.trans model; <span style="color: #8b2252;">\</span>
+   java -cp $<span style="color: #a0522d;">TLATOOLS_JAR</span> tlc2.TLC setup | <span style="color: #8b2252;">\</span>
+   tee ../tlc.out ) | <span style="color: #8b2252;">\</span>
+      grep <span style="color: #8b2252;">'No error has been found\|states generated'</span> -
+</pre>
+</div>
+
+<p>
+and observe the output with the following lines.
+</p>
+
+<pre class="example">
+Model checking completed. No error has been found.
+3 states generated, 2 distinct states found, 0 states left on queue.
+</pre>
+
+<p>
+The output above shows only two distinct states found. First state is
+the initial state, and the second state corresponds to the situation,
+where environment model has processed all setup steps. For <code>setup1</code>,
+there were no stesp defined, unlike to <a href="#setup_companyRegistered"><code>setup_companyRegistered</code></a>, which
+defines one step.
+</p>
+</div>
+</div>
+</div>

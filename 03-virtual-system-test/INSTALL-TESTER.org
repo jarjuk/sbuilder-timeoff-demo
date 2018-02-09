@@ -1,0 +1,244 @@
+* Actions to Install Virtual System Test Runner Components 	  :TOC_2_org:
+- [[Install GEMs][Install GEMs]]
+- [[Ensure directory =virtual-system-test-input= exists][Ensure directory =virtual-system-test-input= exists]]
+- [[Validate tester runner][Validate tester runner]]
+- [[Version information][Version information]]
+
+* Configure Ruby-version					   :noexport:
+
+#+BEGIN_SRC ruby :eval no :tangle .ruby-version
+2.3.1
+#+END_SRC
+
+
+* Create Gemfile						   :noexport:
+
+#+name: gemfile
+#+BEGIN_SRC sh :eval no-export :results output  :exports results :dir .
+cat Gemfile
+#+END_SRC
+
+#+RESULTS: gemfile
+#+begin_example
+# runtime dependencies
+# gemspec
+
+source "https://rubygems.org"
+
+# TODO comment out :path 
+gem 'tla-trace-arch', "=0.1.1"  #, :path=>"../../tla-trace-arch"
+
+# development dependencies
+group :dev do
+
+  # rake
+  gem 'rake'
+
+  # rspec
+  gem 'rspec' # , "~>3.4.0"
+
+  # bundle exec guard
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'guard-shell'
+  gem 'rb-readline'
+
+  gem 'pry'
+  gem 'pry-doc'
+
+  # Web testing
+  gem 'selenium-webdriver'
+  gem 'capybara'
+  gem 'capybara-screenshot'
+
+  gem 'sqlite3-ruby'
+  gem 'hashformer', "~>0.3.1", ">=0.3.1"
+  
+end
+
+
+#+end_example
+
+
+* Install GEMs
+
+Run 
+
+#+BEGIN_SRC sh :eval no-export :exports none :dir .
+rm Gemfile.lock
+#+END_SRC
+
+#+RESULTS:
+
+#+name: bundle-install
+#+BEGIN_SRC sh :eval no-export :results output :dir .
+bundle install
+#+END_SRC
+
+#+RESULTS: bundle-install
+#+begin_example
+The latest bundler is 1.16.1, but you are currently running 1.15.4.
+To update, run `gem install bundler`
+Fetching gem metadata from https://rubygems.org/..........
+Fetching version metadata from https://rubygems.org/..
+Fetching dependency metadata from https://rubygems.org/.
+Resolving dependencies...
+Using rake 12.3.0
+Using public_suffix 3.0.1
+Using bundler 1.15.4
+Using mini_mime 1.0.0
+Using mini_portile2 2.3.0
+Using rack 2.0.4
+Using ffi 1.9.18
+Using classy_hash 0.2.1
+Using coderay 1.1.2
+Using diff-lcs 1.3
+Using formatador 0.2.5
+Using rb-fsevent 0.10.2
+Using ruby_dep 1.5.0
+Using lumberjack 1.0.12
+Using nenv 0.3.0
+Using shellany 0.0.1
+Using method_source 0.9.0
+Using thor 0.20.0
+Using guard-compat 1.2.1
+Using rspec-support 3.7.1
+Using hashie 3.5.7
+Using mustache 1.0.5
+Using polyglot 0.3.5
+Using yard 0.9.12
+Using rb-readline 0.5.5
+Using rubyzip 1.2.1
+Using sqlite3 1.3.13
+Using addressable 2.5.2
+Using nokogiri 1.8.2
+Using rack-test 0.8.2
+Using childprocess 0.8.0
+Using rb-inotify 0.9.10
+Using hashformer 0.3.1
+Using notiffany 0.1.1
+Using pry 0.11.3
+Using rspec-core 3.7.1
+Using rspec-expectations 3.7.0
+Using rspec-mocks 3.7.0
+Using treetop 1.6.9
+Using sqlite3-ruby 1.3.3
+Using launchy 2.4.3
+Using json-schema 2.8.0
+Using xpath 3.0.0
+Using selenium-webdriver 3.8.0
+Using listen 3.1.5
+Using pry-doc 0.12.0
+Using rspec 3.7.0
+Using tla-parser-s 0.2.5
+Using capybara 2.17.0
+Using guard 2.14.2
+Using tla-sbuilder 0.3.9
+Using capybara-screenshot 1.0.18
+Using guard-rspec 4.7.3
+Using guard-shell 0.7.1
+Using tla-trace-filter 0.0.6
+Using tla-trace-arch 0.1.1
+Bundle complete! 14 Gemfile dependencies, 56 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+#+end_example
+
+to install GEM defined in =Gemfile=
+
+* Ensure directory =virtual-system-test-input= exists
+
+#+BEGIN_SRC sh :eval no-export  :dir .
+# create directory - unless it already exists
+[ -d virtual-system-test-input ] || mkdir virtual-system-test-input
+#+END_SRC
+
+#+RESULTS:
+
+
+* Validate tester runner
+
+Assuming =timeoff-management= application has been correctely
+installed, launch test runner moke test with the command
+
+#+name: rspec-smoke
+#+BEGIN_SRC sh  :eval no-export :dir . :results output :exports both
+bundle exec rspec spec/smoke/smoke.rb
+#+END_SRC
+
+and observe following output show that application server was started
+and stoped successfully:
+
+#+RESULTS: rspec-smoke
+#+begin_example
+Starting server 'npm start' in directory 'timeoff' in pid: 3476
+[?25l[[90m..................[0m] - : [32minfo[0m [35musing[0m node@v6.11.4[K[K[?25h
+> TimeOff.Management@0.10.0 start /home/jj/work/sbuilder-timeoff-demo/03-virtual-system-test/timeoff
+> node bin/wwww
+
+.isAppRunning: @svcContext[:status]=true
+.Shutting down server 'npm start' in directory 'timeoff'
+Finish:  killed process 3476 killed thread #<Thread:0x007febef292a60>
+
+
+Finished in 2.01 seconds (files took 0.25857 seconds to load)
+2 examples, 0 failures
+
+#+end_example
+
+* Version information
+
+ - Ruby language envrionment : src_sh[:noweb yes :eval no-export :results output ]{ruby --version} {{{results(=ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]=)}}} 
+ - Tester environment
+   - =rspec= GEM src_sh[:noweb yes :results output :eval no-export ]{ bundle show | grep -e ' rspec ' - } {{{results(=  * rspec (3.7.0)=)}}}         
+   - =sqlite3-ruby= GEM src_sh[:noweb yes :results output :eval no-export ]{ bundle show | grep -e ' sqlite3-ruby ' - } {{{results(=  * sqlite3-ruby (1.3.3)=)}}}         
+   - =capybara= GEM src_sh[:noweb yes :results output :eval no-export ]{ bundle show | grep -e ' capybara ' - } {{{results(=  * capybara (2.17.0)=)}}}         
+   - =selenium-webdriver= GEM src_sh[:noweb yes :results output :eval no-export ]{ bundle show | grep -e ' selenium-webdriver ' - } {{{results(=  * selenium-webdriver (3.8.0)=)}}}         
+ - Sbuilder Tools Set
+   - =tla-trace-arch= GEM create self extracting archive src_sh[:noweb yes :results output :eval no-export ]{ bundle show | grep 'tla-trace-arch '} {{{results(=  * tla-trace-arch (0.1.1)=)}}} 
+
+
+* Fin								   :noexport:
+
+
+** Node version 
+
+#+name: node-version
+#+BEGIN_SRC ruby :eval no
+lts/boron
+#+END_SRC
+
+
+** node 
+
+#+name: node
+#+BEGIN_SRC sh :eval no
+. $NVM_DIR/nvm.sh
+export PATH=$(npm bin):$PATH
+#+END_SRC
+
+
+** nvm 
+
+#+name: nvm
+#+BEGIN_SRC sh :eval no
+. $NVM_DIR/nvm.sh
+#+END_SRC
+
+
+
+** emascs-org Babel configs: working directory .. 		   :noexport:
+
+#+PROPERTY: header-args:sh :dir timeoff
+#+PROPERTY: header-args:js :dir timeoff
+#+PROPERTY: header-args:ruby :dir timeoff
+#+PROPERTY: header-args:elisp :dir timeoff
+
+
+** Emacs variables
+
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
+
+

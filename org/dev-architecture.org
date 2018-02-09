@@ -1,0 +1,227 @@
+* Diagram definitions
+
+** 01-dev-overview
+
+#+name: 01-dev-overview
+#+BEGIN_SRC plantuml :eval no
+
+   node "Schema and API design" as dev01 {
+
+       folder "Logical\nSchema" as logical_schema {
+           artifact "ER diagram" as ERdiagram
+	   artifact Entities 
+       }
+
+       artifact "timeoff-swagger.yaml" as swagger << swagger >> 
+
+       Entities  -[hidden]-> swagger 
+       logical_schema  -> swagger : external\nschema
+   }
+   node "Directory ../stage" as stage {
+      artifact "timeoff-swagger.yaml" as swagger_deploy
+      note right 
+      To Formal Modeling
+      end note
+
+   }
+
+  swagger ..> swagger_deploy : deploy
+
+#+END_SRC
+
+
+** 02-dev-overview
+
+#+name: 02-dev-overview
+#+BEGIN_SRC plantuml :eval no
+   node "Directory ../stage" as stage {
+      artifact "Api Ttrace" as apiTrace_deploy << sh-archive >>
+      note left
+        To virtual System Test 
+      end note
+
+      ' component "Specification Snippet" as deploy_snippet
+      ' note left
+      '   Precise implementation notes
+      ' end note
+
+      artifact "timeoff-swagger.yaml" as swagger_deploy << YAML >>
+      note left
+      From Schema and API Design
+      end note
+
+
+      ' layout
+      swagger_deploy --[hidden] apiTrace_deploy
+   }
+
+   node "Formal Modeling" as  dev02 {
+
+     folder "Formal Model" as FormalModel {
+        folder "Environment Setup" as EnvironmentModel {
+            artifact step << YAML >>
+            artifact domain << YAML >>
+            artifact possibility << TLA+ >> 
+            ' layout
+	    domain --[hidden] possibility 
+	}
+        folder "Application Model" as ApplicationModel {
+           file  "Formal model\ninterface" as tlaInterface << TLA+ >> 
+           artifact "Specification\nsnippet" as snippet << TLA+ >> 
+	}
+	artifact correctness
+	' layout 
+	snippet --[hidden] correctness
+     }
+
+     folder configuration {
+          artifact "resolver" as  resolver << YAML >>
+          artifact "sbuilder.yaml" as  sbuilder_yaml << YAML >>
+	  ' layoyt
+	  sbuilder_yaml --[hidden] resolver
+     }
+     file "Model\nchecker\nerror log" as apiTrace
+
+
+     FormalModel -[hidden]->  apiTrace : generates
+     possibility .> apiTrace : demonstrate\nbehavior
+     ' layout
+     FormalModel -[hidden] sbuilder_yaml
+      
+   }
+
+   swagger_deploy ..> tlaInterface : translated\nautomatically
+   apiTrace ..-> apiTrace_deploy : parsed and\ndeployed
+
+
+
+#+END_SRC
+
+
+** 03-dev-overview
+
+#+name: 03-dev-overview
+#+BEGIN_SRC plantuml :eval no
+   node "Directory ../stage" as stage {
+      artifact "Api Ttrace" as apiTrace_deploy << sh-archive >>
+     note right
+        From Formal Modeling
+     end note
+
+   }
+
+
+   node "Virtual System Testing" as  dev03 {
+
+       folder "Test Runner" as spec << RSpec >> {
+            
+	  card LowerTester << Ruby >>
+	  card UpperTester << Ruby >>
+          ' card "Test Case\nMapper" as TestCaseMapper << Ruby >>
+          card   TestRunner << Ruby >>
+
+	  TestRunner  *-- UpperTester
+	  ' TestRunner  *-- TestCaseMapper
+	  TestRunner  *-- LowerTester
+
+	  ' layout 
+	  'TestCaseMapper -[hidden] LowerTester
+	  ' LowerTester -[hidden] UpperTester
+       }
+
+       folder "Input Folder" as VirtualSystemTestInput {
+            file TestCase
+       }
+       
+       folder "System Under Test" as SUT {
+            component "timeoff-management" as app
+       }
+       
+       ' layout
+       ' spec --[hidden] SUT
+
+      
+   }
+   database GitHub {
+         component "timeoff-management" as  github_app
+   }
+
+    ' TestCase ..> TestCaseMapper
+    TestCase .> TestRunner : Test Case\nstep
+    TestRunner ..> app : access/modify persistent state\nAPI request/response message
+    github_app ..> app : download\nfor testing
+
+    apiTrace_deploy ..> TestCase : extract\narchive
+    ' layout
+    GitHub --[hidden] SUT
+
+
+#+END_SRC
+
+
+* Diagrams
+
+** 00-dev-overview.jpg
+
+#+BEGIN_SRC  plantuml :noweb yes :file pics/00-dev-overview.jpg :eval no-export :exports results
+
+    skinparam defaultTextAlignment center
+    right footer Formal Modeling overview\n\n
+    <<01-dev-overview>> 
+    <<02-dev-overview>> 
+    <<03-dev-overview>> 
+
+#+END_SRC
+
+#+RESULTS:
+[[file:pics/00-dev-overview.jpg]]
+
+
+  
+** 01-dev-overview.jpg
+
+#+BEGIN_SRC  plantuml :noweb yes :file pics/01-dev-overview.jpg :eval no-export :exports results
+    skinparam defaultTextAlignment center
+    right footer Schema and API -design overview\n\n
+<<01-dev-overview>>
+#+END_SRC
+
+#+RESULTS:
+[[file:pics/01-dev-overview.jpg]]
+
+
+
+** 02-dev-overview.jpg
+
+#+BEGIN_SRC  plantuml :noweb yes :file pics/02-dev-overview.jpg :eval no-export :exports results
+
+    skinparam defaultTextAlignment center
+    right footer Formal Modeling overview\n\n
+    <<02-dev-overview>> 
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:pics/02-dev-overview.jpg]]
+
+
+** 03-dev-overview.jpg
+
+#+BEGIN_SRC  plantuml :noweb yes :file pics/03-dev-overview.jpg :eval no-export :exports results
+
+    skinparam defaultTextAlignment center
+    right footer Virtual System Test\n\n
+    <<03-dev-overview>> 
+
+#+END_SRC
+
+#+RESULTS:
+[[file:pics/03-dev-overview.jpg]]
+
+
+* Fin								   :noexport:
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

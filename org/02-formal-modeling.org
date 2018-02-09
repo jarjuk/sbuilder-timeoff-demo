@@ -1,0 +1,45 @@
+#+OPTIONS: toc:nil num:nil
+#+BEGIN_HTML
+---
+layout: page
+title: Formal Modeling
+permalink: 02-formal-modeling.html
+---
+#+END_HTML
+
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/org/02-menu.org" 
+
+Formal model is composed of /Application Model/, /Environment Setup/
+and /Correctness/ criteria.  /Application Model/ is constructed using
+TLA+ language /Specification Snippets/ and by translating API
+specification, =timeoff-swagger.yaml= in =../stage= directory, to
+/Formal Model Interfaces/. /Resolvers/ determine domains for formal
+data model elements, with /Environment Setup Domains/ giving value
+sets for the domains. /Environment Setup Steps/ define interface
+messages environment sends to the /Application Model/. /Correctness/
+criteria are used to verify that the /Formal Model/ meets the
+specified requirements.
+
+/Environment Setup/ may also have /Possibility/ operators, which are
+used to generate /Model Checker Error Logs/ to demonstrate that
+behavior given by the /Possibility/ operator exists in the /Formal
+Model/. Configuration file /sbuilder.yaml/ combines all of the above
+together and controls formal model generation.
+
+/API Traces/, parsed from /Model Checker Error Logs/, are
+deployed to =../stage= directory to be used as input to /Virtual
+System Testing/. Finally,
+
+
+
+# include iamge from dev-architecture
+[[file:pics/02-dev-overview.jpg]]
+
+
+* Fin								   :noexport:
+
+** Emacs variables
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

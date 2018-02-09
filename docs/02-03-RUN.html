@@ -1,0 +1,343 @@
+---
+layout: default
+# title: No title should not show up in header
+permalink: 02-03-RUN.html
+---
+
+<h1 class="post-title">Formal Modeling</h1>
+
+<ul class="org-ul">
+<li><a href="02-formal-modeling.html">Formal Modeling</a>
+
+<ul class="org-ul">
+<li><a href="02-01-INSTALL.html">Instructions to Install Formal Modeling Environment</a></li>
+
+<li><a href="02-02-MODEL.html">Instructions to Create Formal Model</a></li>
+
+<li><a href="02-03-RUN.html">Instructions to Run Model Checker and Create Api Trace Archive</a></li>
+</ul></li>
+</ul>
+
+<div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9"><span class="section-number-2">1</span> Instructions to Run Model Checker and Create Api Trace Archive</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Following commands are executed within directory <code>02-formal-modeling</code>
+</p>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">1.1</span> Action to Run Model Checker and Create Api Trace Archive</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li><a href="#orgheadline1">List setups</a></li>
+<li><a href="#orgheadline2">Generate Formal Model for setup <code>setup_companyRegistered</code></a></li>
+<li><a href="#check-for-correctness">Check Correctness of Formal Model in setup  <code>setup_companyRegistered</code></a></li>
+<li><a href="#orgheadline3">Generatetate API Trace for Possibility Operator <code>isCompanyRegistered</code></a></li>
+<li><a href="#orgheadline4">Generate APItrace for Possibility Operator <code>isCompanyRegisteredFails</code></a></li>
+<li><a href="#orgheadline5">Distribute setup <code>export SETUP=setup_companyRegistered</code> achieve</a></li>
+<li><a href="#orgheadline6">Versions used</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.2</span> List setups</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Command 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock1">bundle exec  sbuilder.rb list setups
+</pre>
+</div>
+
+<p>
+shows setups configured in <code>cnf/sbuider.yaml</code>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.3</span> Generate Formal Model for setup <code>setup_companyRegistered</code></h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Running
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock2">(<span style="color: #a0522d;">SETUP</span>=setup_companyRegistered;  bundle exec  sbuilder.rb generate $<span style="color: #a0522d;">SETUP</span>)
+</pre>
+</div>
+
+<p>
+outputs sbuilder translation log 
+</p>
+
+<pre class="example">
+generate setup: setup_companyRegistered
+Unmustache  src/ --&gt; cache/unmustache - start
+Unmustache  src/ --&gt; cache/unmustache - done
+Parse snippet from repository cache/unmustache - start
+ Initialize parserResolver context symbols
+   4 TLA+ symbols
+   6 SBuilder symbols
+   3 model symbols
+ Initialize parserResolver context symbols - done
+
+Parse snippet from repository cache/unmustache - done: parsed 0 snippets
+</pre>
+
+
+<p>
+and creates TLA-files for setup <code>setup_companyRegistered</code> into the
+directory <code>gen/$SETUP/tla</code>:
+</p>
+
+<pre class="example">
+gen/setup_companyRegistered/tla/config.tla
+gen/setup_companyRegistered/tla/model.tla
+gen/setup_companyRegistered/tla/possible_isCompanyRegisteredFails.tla
+gen/setup_companyRegistered/tla/possible_isCompanyRegistered.tla
+gen/setup_companyRegistered/tla/setup.tla
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="check-for-correctness"><a id="orgheadline8"></a><span class="section-number-3">1.4</span> Check Correctness of Formal Model in setup  <code>setup_companyRegistered</code></h3>
+<div class="outline-text-3" id="text-check-for-correctness">
+<p>
+Model check formal model in file
+<code>gen/setup_companyRegistered/tla/model.tla</code> using TLA configuration
+<code>gen/setup_companyRegistered/tla/setup.tla</code>, 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock3"><span style="color: #483d8b;">export</span> <span style="color: #a0522d;">SETUP</span>=setup_companyRegistered; 
+<span style="color: #483d8b;">export</span> <span style="color: #a0522d;">TLATOOLS_JAR</span>=$(<span style="color: #ff00ff;">pwd</span>)/java/tla2tools.jar; 
+<span style="color: #483d8b;">cd</span> gen/$<span style="color: #a0522d;">SETUP</span>/tla 
+(java -cp $<span style="color: #a0522d;">TLATOOLS_JAR</span> pcal.trans model &amp;&amp; <span style="color: #8b2252;">\</span>
+ java -cp $<span style="color: #a0522d;">TLATOOLS_JAR</span> tlc2.TLC setup | tee ../tlc.out ) <span style="color: #8b2252;">\</span>
+   | grep <span style="color: #8b2252;">'No error has been found.'</span>
+</pre>
+</div>
+
+<p>
+and observe output <code>No error has been found</code>:
+</p>
+
+<pre class="example">
+Model checking completed. No error has been found.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.5</span> Generatetate API Trace for Possibility Operator <code>isCompanyRegistered</code></h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Run model checking for possibility operator <code>isCompanyRegistered</code> in
+setup <code>setup_companyRegistered</code> using the same formal model, which was
+checked for correctness <a href="#check-for-correctness">above</a>.  
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #b22222;"># </span><span style="color: #b22222;">config env</span>
+<span style="color: #483d8b;">export</span> <span style="color: #a0522d;">SETUP</span>=setup_companyRegistered; 
+<span style="color: #483d8b;">export</span> <span style="color: #a0522d;">POSSIBILITY</span>=isCompanyRegistered; 
+<span style="color: #483d8b;">export</span> <span style="color: #a0522d;">TLATOOLS_JAR</span>=$(<span style="color: #ff00ff;">pwd</span>)/java/tla2tools.jar
+<span style="color: #b22222;"># </span><span style="color: #b22222;">model check &amp;&amp; collect log &amp;&amp; expect correct message</span>
+(<span style="color: #483d8b;">cd</span> gen/$<span style="color: #a0522d;">SETUP</span>/tla &amp;&amp;  <span style="color: #8b2252;">\</span>
+   java -cp $<span style="color: #a0522d;">TLATOOLS_JAR</span> pcal.trans model &amp;&amp; <span style="color: #8b2252;">\</span>
+   java -cp $<span style="color: #a0522d;">TLATOOLS_JAR</span> tlc2.TLC possible_${<span style="color: #a0522d;">POSSIBILITY</span>} | <span style="color: #8b2252;">\</span>
+   tee ../tlc_${<span style="color: #a0522d;">POSSIBILITY</span>}.out ) <span style="color: #8b2252;">\</span>
+   | grep <span style="color: #8b2252;">"Invariant possible_$POSSIBILITY is violated."</span>
+</pre>
+</div>
+
+<p>
+In the output, observe message <code>Invariant possible_isCompanyRegistered
+is violated</code> confirming that state given by the possibility operator
+has been observed in the state space generated for the formal model.
+</p>
+
+<pre class="example">
+Error: Invariant possible_isCompanyRegistered is violated.
+</pre>
+
+
+<p>
+Create executable self extracting archive for the <i>Model Checker Error
+Log</i>, which was created when running the model checker with
+<code>isCompanyRegistered</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock4"><span style="color: #483d8b;">export</span> <span style="color: #a0522d;">SETUP</span>=setup_companyRegistered;  
+<span style="color: #483d8b;">export</span> export <span style="color: #a0522d;">POSSIBILITY</span>=isCompanyRegistered; 
+ls -l gen/$<span style="color: #a0522d;">SETUP</span>/tlc_${<span style="color: #a0522d;">POSSIBILITY</span>}.out
+bundle exec  tla-trace-filter.rb api-calls $<span style="color: #a0522d;">SETUP</span> <span style="color: #8b2252;">\</span>
+      gen/$<span style="color: #a0522d;">SETUP</span>/tlc_${<span style="color: #a0522d;">POSSIBILITY</span>}.out <span style="color: #8b2252;">\</span>
+      --mustache tla-trace-arch <span style="color: #8b2252;">\</span>
+      &gt; gen/$<span style="color: #a0522d;">SETUP</span>/arch_${<span style="color: #a0522d;">POSSIBILITY</span>}.sh
+chmod +x gen/$<span style="color: #a0522d;">SETUP</span>/arch_${<span style="color: #a0522d;">POSSIBILITY</span>}.sh
+gen/$<span style="color: #a0522d;">SETUP</span>/arch_${<span style="color: #a0522d;">POSSIBILITY</span>}.sh -d tmp list 2&gt;&amp;1
+ls -l gen/$<span style="color: #a0522d;">SETUP</span>/arch_${<span style="color: #a0522d;">POSSIBILITY</span>}.sh
+</pre>
+</div>
+
+<p>
+Output for the commands above show 
+</p>
+
+<pre class="example">
+-rw-rw-r-- 1 jj jj 5351 helmi  8 15:57 gen/setup_companyRegistered/tlc_isCompanyRegistered.out
+
+Self create by jj@horsti
+
+.. Checking SHA1 of gen/setup_companyRegistered/arch_isCompanyRegistered.sh
+.. Archive SHA1 ok
+.. list step=, interface=
+Step 1 interface /registerCompany(post)
+-rwxrwxr-x 1 jj jj 10418 helmi  8 15:57 gen/setup_companyRegistered/arch_isCompanyRegistered.sh
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">1.6</span> Generate APItrace for Possibility Operator <code>isCompanyRegisteredFails</code></h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+Check possibility <code>isCompanyRegisteredFails</code> in setup
+<code>setup_companyRegistered</code>: 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock5"><span style="color: #b22222;"># </span><span style="color: #b22222;">config env</span>
+<span style="color: #483d8b;">export</span> <span style="color: #a0522d;">SETUP</span>=setup_companyRegistered; 
+<span style="color: #483d8b;">export</span> <span style="color: #a0522d;">POSSIBILITY</span>=isCompanyRegisteredFails; 
+<span style="color: #483d8b;">export</span> <span style="color: #a0522d;">TLATOOLS_JAR</span>=$(<span style="color: #ff00ff;">pwd</span>)/java/tla2tools.jar
+<span style="color: #b22222;"># </span><span style="color: #b22222;">model check &amp;&amp; collect log &amp;&amp; expect correct message</span>
+(<span style="color: #483d8b;">cd</span> gen/$<span style="color: #a0522d;">SETUP</span>/tla &amp;&amp;  <span style="color: #8b2252;">\</span>
+    java -cp $<span style="color: #a0522d;">TLATOOLS_JAR</span> pcal.trans model &amp;&amp; <span style="color: #8b2252;">\</span>
+    java -cp $<span style="color: #a0522d;">TLATOOLS_JAR</span> tlc2.TLC possible_${<span style="color: #a0522d;">POSSIBILITY</span>} <span style="color: #8b2252;">\</span>
+    | tee ../tlc_${<span style="color: #a0522d;">POSSIBILITY</span>}.out <span style="color: #8b2252;">\</span>
+) <span style="color: #8b2252;">\</span>
+   | grep <span style="color: #8b2252;">"Invariant possible_$POSSIBILITY is violated."</span>
+</pre>
+</div>
+
+<p>
+and observe confirmation in the output:
+</p>
+
+<pre class="example">
+Error: Invariant possible_isCompanyRegisteredFails is violated.
+</pre>
+
+<p>
+Issue the following commands to create an executable archive file
+<code>gen/$SETUP/arch_${POSSIBILITY}.sh</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock6"><span style="color: #483d8b;">export</span> <span style="color: #a0522d;">SETUP</span>=setup_companyRegistered; 
+<span style="color: #483d8b;">export</span> <span style="color: #a0522d;">POSSIBILITY</span>=isCompanyRegisteredFails; 
+ls -l gen/$<span style="color: #a0522d;">SETUP</span>/tlc_${<span style="color: #a0522d;">POSSIBILITY</span>}.out
+bundle exec  <span style="color: #8b2252;">\</span>
+     tla-trace-filter.rb api-calls $<span style="color: #a0522d;">SETUP</span> gen/$<span style="color: #a0522d;">SETUP</span>/tlc_${<span style="color: #a0522d;">POSSIBILITY</span>}.out <span style="color: #8b2252;">\</span>
+        --mustache tla-trace-arch <span style="color: #8b2252;">\</span>
+        &gt; gen/$<span style="color: #a0522d;">SETUP</span>/arch_${<span style="color: #a0522d;">POSSIBILITY</span>}.sh; 
+chmod +x gen/$<span style="color: #a0522d;">SETUP</span>/arch_${<span style="color: #a0522d;">POSSIBILITY</span>}.sh; 
+gen/$<span style="color: #a0522d;">SETUP</span>/arch_${<span style="color: #a0522d;">POSSIBILITY</span>}.sh -d tmp list 2&gt;&amp;1
+ls -l gen/$<span style="color: #a0522d;">SETUP</span>/arch_${<span style="color: #a0522d;">POSSIBILITY</span>}.sh
+</pre>
+</div>
+
+<p>
+and observe the output
+</p>
+
+<pre class="example">
+-rw-rw-r-- 1 jj jj 4944 helmi  8 15:57 gen/setup_companyRegistered/tlc_isCompanyRegisteredFails.out
+
+Self create by jj@horsti
+
+.. Checking SHA1 of gen/setup_companyRegistered/arch_isCompanyRegisteredFails.sh
+.. Archive SHA1 ok
+.. list step=, interface=
+Step 1 interface /registerCompany(post)
+-rwxrwxr-x 1 jj jj 10034 helmi  8 15:57 gen/setup_companyRegistered/arch_isCompanyRegisteredFails.sh
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">1.7</span> Distribute setup <code>export SETUP=setup_companyRegistered</code> achieve</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+Copy archive files <code>gen/$SETUP/arch_*.sh</code> the to staging directory
+<code>../stage</code>
+</p>
+
+
+<p>
+Issue the commands and 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock7"><span style="color: #483d8b;">export</span> <span style="color: #a0522d;">SETUP</span>=setup_companyRegistered
+cp gen/$<span style="color: #a0522d;">SETUP</span>/arch_*.sh ../stage
+ls -l  ../stage/arch_*.sh
+</pre>
+</div>
+
+<p>
+and observe files being copied to <code>../stage</code> -directory:
+</p>
+
+<pre class="example">
+-rwxrwxr-x 1 jj jj 10034 helmi  8 15:57 ../stage/arch_isCompanyRegisteredFails.sh
+-rwxrwxr-x 1 jj jj 10418 helmi  8 15:57 ../stage/arch_isCompanyRegistered.sh
+</pre>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">1.8</span> Versions used</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>TLA+tools: 
+<ul class="org-ul">
+<li>java version: =java version "1.8.0<sub>161</sub>"=</li>
+<li>pcal version  <code>pcal.trans Version 1.8 of 18 Aug 2015</code></li>
+<li>TLC version  <code>TLC2 Version 2.12 of 29 January 2018 (rev: 2cf4197)</code></li>
+</ul></li>
+<li>Sbuilder Tools Set
+<ul class="org-ul">
+<li>Ruby language envrionment : <code>ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]</code></li>
+<li><code>tla-sbuilder</code> GEM create TLA+ language formal model: =sbuilder.rb - 0.3.9   =</li>
+<li><code>tla-parser-s</code> GEM parse TLA+ language:  =  * tla-parser-s (0.2.5)=</li>
+<li><code>tla-trace-filter</code> GEM parse TLA+tools log: =  * tla-trace-filter (0.0.6)=</li>
+<li><code>tla-trace-arch</code> GEM create self extracting archive =  * tla-trace-arch (0.1.1)=</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>

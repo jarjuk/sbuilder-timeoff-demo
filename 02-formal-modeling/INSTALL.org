@@ -1,0 +1,188 @@
+
+* Installation Actions 						  :TOC_2_org:
+- [[Create =Gemfile=][Create =Gemfile=]]
+- [[Run =bundle install= to install GEMS][Run =bundle install= to install GEMS]]
+- [[Install TLA+tools =tla2tools.jar=][Install TLA+tools =tla2tools.jar=]]
+- [[Initialize =tla-sbuilder= directory structure][Initialize =tla-sbuilder= directory structure]]
+- [[Validate sbuilder installation and ouput sbuilder version information][Validate sbuilder installation and ouput sbuilder version information]]
+- [[Create directory =tla=][Create directory =tla=]]
+- [[Versions used][Versions used]]
+
+* Create =Gemfile=
+
+Configure =Gemfile=
+
+#+BEGIN_SRC ruby :eval no :tangle Gemfile
+source "https://rubygems.org"
+gem "tla-sbuilder", "=0.3.9"       # ,  :path => "../../tla-sbuilder"
+gem "tla-trace-arch", "=0.1.1"     # ,  :path => "../../tla-trace-arch"
+# comment out the paths!!
+#+END_SRC
+
+
+* Run =bundle install= to install GEMS
+
+
+#+BEGIN_SRC sh :eval no-export :exports none
+rm -f  Gemfile.lock
+#+END_SRC
+
+#+RESULTS:
+
+#+name: bundle-install
+#+BEGIN_SRC sh :eval no-export :results output
+bundle install
+#+END_SRC
+
+#+RESULTS: bundle-install
+#+begin_example
+The latest bundler is 1.16.1, but you are currently running 1.15.4.
+To update, run `gem install bundler`
+Fetching gem metadata from https://rubygems.org/...........
+Fetching version metadata from https://rubygems.org/.
+Resolving dependencies...
+Using public_suffix 3.0.1
+Using bundler 1.15.4
+Using ffi 1.9.21
+Using hashie 3.5.7
+Using mustache 1.0.5
+Using polyglot 0.3.5
+Using thor 0.20.0
+Using addressable 2.5.2
+Using treetop 1.6.9
+Using json-schema 2.8.0
+Using tla-parser-s 0.2.5
+Using tla-sbuilder 0.3.9
+Using tla-trace-filter 0.0.6
+Using tla-trace-arch 0.1.1
+Bundle complete! 2 Gemfile dependencies, 14 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+#+end_example
+
+
+* Install TLA+tools =tla2tools.jar=
+
+ Download TLA+ Tools distribution package =tla2tools.jar= to a local =java= -directory
+
+ #+name: install-tla-tools
+ #+BEGIN_SRC sh  :eval no-export :exports code :results output
+ mkdir java
+ wget https://tla.msr-inria.inria.fr/tlatoolbox/dist/tla2tools.jar -O java/tla2tools.jar
+ #+END_SRC
+
+ #+RESULTS: install-tla-tools
+
+#+name: ls-java
+#+BEGIN_SRC sh :eval no-export :exports none :results output
+ls -l java
+#+END_SRC
+
+#+RESULTS: ls-java
+: total 2348
+: -rw-rw-r-- 1 jj jj 2401057 tammi 29 14:58 tla2tools.jar
+
+TLA+tool versions used to create this document are
+
+ #+name: pcal-version
+ #+BEGIN_SRC sh  :eval no-export :exports results :results output
+   TLATOOLS_JAR=java/tla2tools.jar; java -cp $TLATOOLS_JAR pcal.trans -version | grep Version
+ #+END_SRC
+
+ #+RESULTS: pcal-version
+ : pcal.trans Version 1.8 of 18 Aug 2015
+
+for TLA+tools pcal translator, and 
+
+ #+BEGIN_SRC sh  :eval no-export :exports results :results output
+   TLATOOLS_JAR=java/tla2tools.jar; java -cp $TLATOOLS_JAR tlc2.TLC -help | grep Version
+ #+END_SRC
+
+ #+RESULTS:
+ : TLC2 Version 2.12 of 29 January 2018 (rev: 2cf4197)
+
+for TLA+tools TLC model checker.
+
+
+* Initialize =tla-sbuilder= directory structure
+
+Command 
+
+#+name: sbuilder-init-def
+#+BEGIN_SRC sh   :exports code :eval no
+bundle exec  sbuilder.rb init
+#+END_SRC
+
+#+name: sbuilder-init
+#+BEGIN_SRC sh :eval no-export :results output :exports none :noweb yes
+<<sbuilder-init-def>>
+rm cnf/*.example
+#+END_SRC
+
+creates directory structure used by =sbuilder=
+
+#+RESULTS: sbuilder-init
+#+begin_example
+Directory cnf - already exists - no need to create
+Directory cache - already exists - no need to create
+Directory src - already exists - no need to create
+Directory src/extend - already exists - no need to create
+Directory gen - already exists - no need to create
+File cnf/sbuilder.yaml.example - created
+File cnf/resolver_customer.yaml.example - created
+File cnf/extend_customer_doms.yaml.example - created
+File cnf/extend_customer_if.yaml.example - created
+File cnf/extend_customer_run1.yaml.example - created
+File cnf/extend_customer_run2.yaml.example - created
+File cnf/interface_customer.yaml.example - created
+#+end_example
+
+
+* Validate sbuilder installation and ouput sbuilder version information
+
+Run
+
+#+name: sbuilder-version
+#+BEGIN_SRC sh :eval no-export :results output :exports both
+bundle exec sbuilder.rb version
+#+END_SRC
+
+to validate =Sbuilder= installation and ouput sbuilder version
+information:
+
+#+RESULTS: sbuilder-version
+: sbuilder.rb - 0.3.9   
+
+
+* Create directory =tla=
+
+Create a directory =tla=, which will later be used to store modeling
+snippets of the formal model:
+
+#+BEGIN_SRC sh :eval no-export
+# create directory - if it does not exist
+[ -d tla ] || mkdir tla 
+#+END_SRC
+
+#+RESULTS:
+
+
+
+* Versions used
+
+  - TLA+tools: 
+    - java version: src_sh[:noweb yes :eval no-export :results output ]{java -version 2>&1 | grep version} {{{results(=java version "1.8.0_161"=)}}}     
+    - pcal version  src_sh[:noweb yes :eval no-export :results output ]{TLATOOLS_JAR=java/tla2tools.jar; java -cp $TLATOOLS_JAR pcal.trans -help | head -n 1 } {{{results(=pcal.trans Version 1.8 of 18 Aug 2015=)}}}
+    - TLC version  src_sh[:noweb yes :eval no-export :results output ]{TLATOOLS_JAR=java/tla2tools.jar; java -cp $TLATOOLS_JAR tlc2.TLC -help | head -n 1 } {{{results(=TLC2 Version 2.12 of 29 January 2018 (rev: 2cf4197)=)}}}                                    
+  - Sbuilder Tools Set
+    - Ruby language envrionment : src_sh[:noweb yes :eval no-export :results output ]{ruby --version} {{{results(=ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]=)}}}                              
+    - =tla-sbuilder= GEM create TLA+ language formal model: src_sh[:noweb yes :eval no-export :results output ]{bundle exec sbuilder.rb version} {{{results(=sbuilder.rb - 0.3.9   =)}}} 
+    - =tla-parser-s= GEM parse TLA+ language:  src_sh[:noweb yes :results output :eval no-export ]{ bundle show | grep 'tla-parser-s '} {{{results(=  * tla-parser-s (0.2.5)=)}}} 
+    - =tla-trace-filter= GEM parse TLA+tools log: src_sh[:noweb yes :results output :eval no-export]{ bundle show | grep 'tla-trace-filter '} {{{results(=  * tla-trace-filter (0.0.6)=)}}} 
+    - =tla-trace-arch= GEM create self extracting archive src_sh[:noweb yes :results output :eval no-export]{ bundle show | grep 'tla-trace-arch '} {{{results(=  * tla-trace-arch (0.1.1)=)}}}
+
+
+* Fin								   :noexport:
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

@@ -1,0 +1,126 @@
+---
+layout: default
+# title: No title should not show up in header
+permalink: 03-02-install-tester.html
+---
+
+<h1 class="post-title">Virtual System Testing</h1>
+
+
+<ul class="org-ul">
+<li><a href="03-virtual-system-test.html">Virtual System Testing</a> 
+<ul class="org-ul">
+<li><a href="03-01-install.html">Install <code>timeoff-management</code> Application for Virtual System Testing</a></li>
+<li><a href="03-02-install-tester.html">Install Virtual System Test Runner GEMs</a></li>
+<li><a href="03-test-runner.html">Implement Virtual System Test Runner</a></li>
+<li><a href="03-03-run-tests.html">Run Virtual System Tests</a></li>
+</ul></li>
+</ul>
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">1</span> Install Virtual System Test Runner GEMs</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Commands to execute in directory <code>03-virtual-system-test/</code>:
+</p>
+</div>
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">1.1</span> Actions to Install Virtual System Test Runner Components</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li><a href="#orgheadline1">Install GEMs</a></li>
+<li><a href="#orgheadline2">Ensure directory <code>virtual-system-test-input</code> exists</a></li>
+<li><a href="#orgheadline3">Validate tester runner</a></li>
+<li><a href="#orgheadline4">Version information</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.2</span> Install GEMs</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Run 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock1">bundle install
+</pre>
+</div>
+
+<p>
+to install GEM defined in <code>Gemfile</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.3</span> Ensure directory <code>virtual-system-test-input</code> exists</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #b22222;"># </span><span style="color: #b22222;">create directory - unless it already exists</span>
+[ -d virtual-system-test-input ] || mkdir virtual-system-test-input
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.4</span> Validate tester runner</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Assuming <code>timeoff-management</code> application has been correctely
+installed, launch test runner moke test with the command
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock2">bundle exec rspec spec/smoke/smoke.rb
+</pre>
+</div>
+
+<p>
+and observe following output show that application server was started
+and stoped successfully:
+</p>
+
+<pre class="example">
+Starting server 'npm start' in directory 'timeoff' in pid: 3476
+[?25l[[90m..................[0m] - : [32minfo[0m [35musing[0m node@v6.11.4[K[K[?25h
+&gt; TimeOff.Management@0.10.0 start /home/jj/work/sbuilder-timeoff-demo/03-virtual-system-test/timeoff
+&gt; node bin/wwww
+
+.isAppRunning: @svcContext[:status]=true
+.Shutting down server 'npm start' in directory 'timeoff'
+Finish:  killed process 3476 killed thread #&lt;Thread:0x007febef292a60&gt;
+
+
+Finished in 2.01 seconds (files took 0.25857 seconds to load)
+2 examples, 0 failures
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">1.5</span> Version information</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>Ruby language envrionment : <code>ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]</code></li>
+<li>Tester environment
+<ul class="org-ul">
+<li><code>rspec</code> GEM =  * rspec (3.7.0)=</li>
+<li><code>sqlite3-ruby</code> GEM =  * sqlite3-ruby (1.3.3)=</li>
+<li><code>capybara</code> GEM =  * capybara (2.17.0)=</li>
+<li><code>selenium-webdriver</code> GEM =  * selenium-webdriver (3.8.0)=</li>
+</ul></li>
+<li>Sbuilder Tools Set
+<ul class="org-ul">
+<li><code>tla-trace-arch</code> GEM create self extracting archive =  * tla-trace-arch (0.1.1)=</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>

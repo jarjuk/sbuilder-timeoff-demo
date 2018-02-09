@@ -1,0 +1,250 @@
+Following commands are executed within directory =02-formal-modeling=
+
+* Action to Run Model Checker and Create Api Trace Archive 	  :TOC_2_org:
+- [[List setups][List setups]]
+- [[Generate Formal Model for setup =setup_companyRegistered=][Generate Formal Model for setup =setup_companyRegistered=]]
+- [[Check Correctness of Formal Model in setup  =setup_companyRegistered=][Check Correctness of Formal Model in setup  =setup_companyRegistered=]]
+- [[Generatetate API Trace for Possibility Operator =isCompanyRegistered=][Generatetate API Trace for Possibility Operator =isCompanyRegistered=]]
+- [[Generate APItrace for Possibility Operator =isCompanyRegisteredFails=][Generate APItrace for Possibility Operator =isCompanyRegisteredFails=]]
+- [[Distribute setup =export SETUP=setup_companyRegistered= achieve][Distribute setup =export SETUP=setup_companyRegistered= achieve]]
+- [[Versions used][Versions used]]
+
+* List setups
+
+Command 
+
+#+name: sbuilder-list-setups
+#+BEGIN_SRC sh :eval no-export :results output :exports code
+bundle exec  sbuilder.rb list setups
+#+END_SRC
+
+shows setups configured in =cnf/sbuider.yaml=
+
+#+RESULTS: sbuilder-list-setups
+: setup1 setup_companyRegistered
+
+
+* Generate Formal Model for setup =setup_companyRegistered=
+
+Running
+
+#+name: gen1
+#+BEGIN_SRC sh :results output :exports both :eval no-export
+(SETUP=setup_companyRegistered;  bundle exec  sbuilder.rb generate $SETUP)
+#+END_SRC
+
+outputs sbuilder translation log 
+
+#+RESULTS: gen1
+#+begin_example
+generate setup: setup_companyRegistered
+Unmustache  src/ --> cache/unmustache - start
+Unmustache  src/ --> cache/unmustache - done
+Parse snippet from repository cache/unmustache - start
+ Initialize parserResolver context symbols
+   4 TLA+ symbols
+   6 SBuilder symbols
+   3 model symbols
+ Initialize parserResolver context symbols - done
+
+Parse snippet from repository cache/unmustache - done: parsed 0 snippets
+#+end_example
+
+
+and creates TLA-files for setup =setup_companyRegistered= into the
+directory =gen/$SETUP/tla=:
+
+#+BEGIN_SRC sh :eval no-export :results output :exports results
+SETUP=setup_companyRegistered; ls -1 gen/$SETUP/tla/*.tla
+#+END_SRC
+
+#+RESULTS:
+: gen/setup_companyRegistered/tla/config.tla
+: gen/setup_companyRegistered/tla/model.tla
+: gen/setup_companyRegistered/tla/possible_isCompanyRegisteredFails.tla
+: gen/setup_companyRegistered/tla/possible_isCompanyRegistered.tla
+: gen/setup_companyRegistered/tla/setup.tla
+
+
+* Check Correctness of Formal Model in setup  =setup_companyRegistered=
+  :PROPERTIES:
+  :CUSTOM_ID: check-for-correctness
+  :END:
+
+Model check formal model in file
+=gen/setup_companyRegistered/tla/model.tla= using TLA configuration
+=gen/setup_companyRegistered/tla/setup.tla=, 
+
+#+name: full-run-1-correctness
+#+BEGIN_SRC sh  :eval no-export :results output :exports both
+export SETUP=setup_companyRegistered; 
+export TLATOOLS_JAR=$(pwd)/java/tla2tools.jar; 
+cd gen/$SETUP/tla 
+(java -cp $TLATOOLS_JAR pcal.trans model && \
+ java -cp $TLATOOLS_JAR tlc2.TLC setup | tee ../tlc.out ) \
+   | grep 'No error has been found.'
+#+END_SRC
+
+and observe output =No error has been found=:
+
+#+RESULTS: full-run-1-correctness
+: Model checking completed. No error has been found.
+
+* Generatetate API Trace for Possibility Operator =isCompanyRegistered=
+
+Run model checking for possibility operator =isCompanyRegistered= in
+setup =setup_companyRegistered= using the same formal model, which was
+checked for correctness [[#check-for-correctness][above]].  
+
+#+BEGIN_SRC sh :eval no-export :results output :exports both
+# config env
+export SETUP=setup_companyRegistered; 
+export POSSIBILITY=isCompanyRegistered; 
+export TLATOOLS_JAR=$(pwd)/java/tla2tools.jar
+# model check && collect log && expect correct message
+(cd gen/$SETUP/tla &&  \
+   java -cp $TLATOOLS_JAR pcal.trans model && \
+   java -cp $TLATOOLS_JAR tlc2.TLC possible_${POSSIBILITY} | \
+   tee ../tlc_${POSSIBILITY}.out ) \
+   | grep "Invariant possible_$POSSIBILITY is violated."
+#+END_SRC
+
+In the output, observe message =Invariant possible_isCompanyRegistered
+is violated= confirming that state given by the possibility operator
+has been observed in the state space generated for the formal model.
+
+#+RESULTS:
+: Error: Invariant possible_isCompanyRegistered is violated.
+
+
+Create executable self extracting archive for the /Model Checker Error
+Log/, which was created when running the model checker with
+=isCompanyRegistered=:
+
+#+name: tla-trace-arch-1
+#+BEGIN_SRC sh :eval no-export :results output :exports both
+export SETUP=setup_companyRegistered;  
+export export POSSIBILITY=isCompanyRegistered; 
+ls -l gen/$SETUP/tlc_${POSSIBILITY}.out
+bundle exec  tla-trace-filter.rb api-calls $SETUP \
+      gen/$SETUP/tlc_${POSSIBILITY}.out \
+      --mustache tla-trace-arch \
+      > gen/$SETUP/arch_${POSSIBILITY}.sh
+chmod +x gen/$SETUP/arch_${POSSIBILITY}.sh
+gen/$SETUP/arch_${POSSIBILITY}.sh -d tmp list 2>&1
+ls -l gen/$SETUP/arch_${POSSIBILITY}.sh
+#+END_SRC
+
+Output for the commands above show 
+
+#+RESULTS: tla-trace-arch-1
+: -rw-rw-r-- 1 jj jj 5351 helmi  8 15:57 gen/setup_companyRegistered/tlc_isCompanyRegistered.out
+: 
+: Self create by jj@horsti
+: 
+: .. Checking SHA1 of gen/setup_companyRegistered/arch_isCompanyRegistered.sh
+: .. Archive SHA1 ok
+: .. list step=, interface=
+: Step 1 interface /registerCompany(post)
+: -rwxrwxr-x 1 jj jj 10418 helmi  8 15:57 gen/setup_companyRegistered/arch_isCompanyRegistered.sh
+
+
+* Generate APItrace for Possibility Operator =isCompanyRegisteredFails=
+
+Check possibility =isCompanyRegisteredFails= in setup
+=setup_companyRegistered=: 
+
+#+name: full-run-1
+#+BEGIN_SRC sh :eval no-export :results output :exports both
+# config env
+export SETUP=setup_companyRegistered; 
+export POSSIBILITY=isCompanyRegisteredFails; 
+export TLATOOLS_JAR=$(pwd)/java/tla2tools.jar
+# model check && collect log && expect correct message
+(cd gen/$SETUP/tla &&  \
+    java -cp $TLATOOLS_JAR pcal.trans model && \
+    java -cp $TLATOOLS_JAR tlc2.TLC possible_${POSSIBILITY} \
+    | tee ../tlc_${POSSIBILITY}.out \
+) \
+   | grep "Invariant possible_$POSSIBILITY is violated."
+#+END_SRC
+
+and observe confirmation in the output:
+
+#+RESULTS: full-run-1
+: Error: Invariant possible_isCompanyRegisteredFails is violated.
+
+Issue the following commands to create an executable archive file
+=gen/$SETUP/arch_${POSSIBILITY}.sh=
+
+#+name: create-arch-2
+#+BEGIN_SRC sh :eval no-export :results output :exports both
+export SETUP=setup_companyRegistered; 
+export POSSIBILITY=isCompanyRegisteredFails; 
+ls -l gen/$SETUP/tlc_${POSSIBILITY}.out
+bundle exec  \
+     tla-trace-filter.rb api-calls $SETUP gen/$SETUP/tlc_${POSSIBILITY}.out \
+        --mustache tla-trace-arch \
+        > gen/$SETUP/arch_${POSSIBILITY}.sh; 
+chmod +x gen/$SETUP/arch_${POSSIBILITY}.sh; 
+gen/$SETUP/arch_${POSSIBILITY}.sh -d tmp list 2>&1
+ls -l gen/$SETUP/arch_${POSSIBILITY}.sh
+#+END_SRC
+
+and observe the output
+
+#+RESULTS: create-arch-2
+: -rw-rw-r-- 1 jj jj 4944 helmi  8 15:57 gen/setup_companyRegistered/tlc_isCompanyRegisteredFails.out
+: 
+: Self create by jj@horsti
+: 
+: .. Checking SHA1 of gen/setup_companyRegistered/arch_isCompanyRegisteredFails.sh
+: .. Archive SHA1 ok
+: .. list step=, interface=
+: Step 1 interface /registerCompany(post)
+: -rwxrwxr-x 1 jj jj 10034 helmi  8 15:57 gen/setup_companyRegistered/arch_isCompanyRegisteredFails.sh
+
+
+* Distribute setup =export SETUP=setup_companyRegistered= achieve
+
+Copy archive files =gen/$SETUP/arch_*.sh= the to staging directory
+=../stage=
+
+
+Issue the commands and 
+
+#+name: distribute-arch
+#+BEGIN_SRC sh :eval no-export  :results output :exports both
+export SETUP=setup_companyRegistered
+cp gen/$SETUP/arch_*.sh ../stage
+ls -l  ../stage/arch_*.sh
+#+END_SRC
+
+and observe files being copied to =../stage= -directory:
+
+#+RESULTS: distribute-arch
+: -rwxrwxr-x 1 jj jj 10034 helmi  8 15:57 ../stage/arch_isCompanyRegisteredFails.sh
+: -rwxrwxr-x 1 jj jj 10418 helmi  8 15:57 ../stage/arch_isCompanyRegistered.sh
+
+
+
+* Versions used
+
+  - TLA+tools: 
+    - java version: src_sh[:noweb yes :eval no-export :results output ]{java -version 2>&1 | grep version} {{{results(=java version "1.8.0_161"=)}}}     
+    - pcal version  src_sh[:noweb yes :eval no-export :results output ]{TLATOOLS_JAR=java/tla2tools.jar; java -cp $TLATOOLS_JAR pcal.trans -help | head -n 1 } {{{results(=pcal.trans Version 1.8 of 18 Aug 2015=)}}}
+    - TLC version  src_sh[:noweb yes :eval no-export :results output ]{TLATOOLS_JAR=java/tla2tools.jar; java -cp $TLATOOLS_JAR tlc2.TLC -help | head -n 1 } {{{results(=TLC2 Version 2.12 of 29 January 2018 (rev: 2cf4197)=)}}}                                    
+  - Sbuilder Tools Set
+    - Ruby language envrionment : src_sh[:noweb yes :eval no-export :results output ]{ruby --version} {{{results(=ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]=)}}}                              
+    - =tla-sbuilder= GEM create TLA+ language formal model: src_sh[:noweb yes :eval no-export :results output ]{bundle exec sbuilder.rb version} {{{results(=sbuilder.rb - 0.3.9   =)}}} 
+    - =tla-parser-s= GEM parse TLA+ language:  src_sh[:noweb yes :results output :eval no-export ]{ bundle show | grep 'tla-parser-s '} {{{results(=  * tla-parser-s (0.2.5)=)}}} 
+    - =tla-trace-filter= GEM parse TLA+tools log: src_sh[:noweb yes :results output :eval no-export]{ bundle show | grep 'tla-trace-filter '} {{{results(=  * tla-trace-filter (0.0.6)=)}}} 
+    - =tla-trace-arch= GEM create self extracting archive src_sh[:noweb yes :results output :eval no-export]{ bundle show | grep 'tla-trace-arch '} {{{results(=  * tla-trace-arch (0.1.1)=)}}}
+
+
+* Fin								   :noexport:
+
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

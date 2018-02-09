@@ -1,0 +1,443 @@
+
+* Formal Model Elements 					  :TOC_3_org:
+- [[Application Model][Application Model]]
+  - [[Spefication Snippets][Spefication Snippets]]
+    - [[Model State][Model State]]
+    - [[Model Service][Model Service]]
+    - [[Actions and Operators][Actions and Operators]]
+  - [[Correctness Criteria][Correctness Criteria]]
+    - [[Invariant: verify formal model state][Invariant: verify formal model state]]
+  - [[Possibility Operators][Possibility Operators]]
+    - [[Service =/registerCompany(post)= Executes Successfully][Service =/registerCompany(post)= Executes Successfully]]
+    - [[Service =/registerCompany(post)= Execution Fails][Service =/registerCompany(post)= Execution Fails]]
+- [[Environment Setup][Environment Setup]]
+  - [[Setup =cnf/setup_companyRegistered.yaml=][Setup =cnf/setup_companyRegistered.yaml=]]
+- [[Sbuilder configuration][Sbuilder configuration]]
+  - [[Create resolver =cnf/timeoff-resolver.yaml=][Create resolver =cnf/timeoff-resolver.yaml=]]
+  - [[Sbuilder configuration  =cnf/sbuider.yaml=][Sbuilder configuration  =cnf/sbuider.yaml=]]
+- [[Smoke Run Using Setup =setup1=][Smoke Run Using Setup =setup1=]]
+
+* Application Model
+
+** Spefication Snippets
+
+*** Model State
+
+**** Model Entity =Users= 
+
+  State of entity =Users= is modeled using tla+ module
+  =tla/Timeoff_Users.tla=
+
+   #+BEGIN_SRC text :tangle tla/Timeoff_Users.tla
+\* State variable Timeoff_Users initialized to an empty set
+Timeoff_Users = {};
+   #+END_SRC
+
+
+**** Model Entity =Companies=
+
+  State of entity =Companies= is modeled using tla+ module
+  =tla/Timeoff_Companies.tla=
+
+   #+BEGIN_SRC text :tangle tla/Timeoff_Companies.tla
+\* State variable Timeoff_Companies initialized to an empty set
+Timeoff_Companies = {};
+   #+END_SRC
+
+
+
+*** Model Service
+
+**** =tla/TimeoffRegisterCompany.tla= 
+
+  #+BEGIN_SRC text :tangle tla/TimeoffRegisterCompany.tla
+(*
+ * Service entry point for interface /registerCompany(post).
+ * Calls service implementation in procedure 
+ * proc_TimeoffRegisterCompany
+*)
+macro TimeoffRegisterCompany( input ) {
+
+      call proc_TimeoffRegisterCompany( input );
+
+}
+
+  #+END_SRC
+
+
+**** =tla/proc_TimeoffRegisterCompany.tla=
+
+  #+BEGIN_SRC text :tangle tla/proc_TimeoffRegisterCompany.tla
+(*
+ * Service implementation for interface /registerCompany(post).
+ * Adds user and company entities for valid input and returns status 200 for 
+ * valid input. For invalid input return status "400".
+*)
+procedure proc_TimeoffRegisterCompany( input_proc_TimeoffRegisterCompany ) {
+
+proc_TimeoffRegisterCompany_start:
+
+  if (      valid_User( input_proc_TimeoffRegisterCompany )  
+       /\   valid_Company( input_proc_TimeoffRegisterCompany )  
+
+     ) {
+      TimeoffAddUser( 
+	  [ user_name |-> input_proc_TimeoffRegisterCompany.user_name, 
+	    user_lastname |-> input_proc_TimeoffRegisterCompany.user_lastname,
+	    user_email |-> input_proc_TimeoffRegisterCompany.user_email
+	  ] );
+      TimeoffAddCompany( 
+	  [ 
+	    company_name |-> input_proc_TimeoffRegisterCompany.company_name 
+	  ] );
+
+      InfrastructureServiceReturn( "/registerCompany(post)", "status_200", Nil );
+  }
+  else {
+      InfrastructureServiceReturn( "/registerCompany(post)", "status_400", Nil );
+  };
+
+proc_TimeoffRegisterCompany_exit:
+  return;
+}
+
+  #+END_SRC
+
+
+*** Actions and Operators
+
+**** Action: Add new =user=
+
+In file =tla/TimeoffAddUser.tla= 
+
+  #+BEGIN_SRC text :tangle tla/TimeoffAddUser.tla
+(*
+ * Add new user entry to model state - if it does not exist
+*)
+macro TimeoffAddUser( user ) {
+    
+    if ( ~ user \in Timeoff_Users ) {
+          Timeoff_Users := Timeoff_Users \union { user };
+    };
+}
+
+  #+END_SRC
+
+
+**** Action: Add new =company=
+
+In file =tla/TimeoffAddCompany.tla= 
+
+  #+BEGIN_SRC text :tangle tla/TimeoffAddCompany.tla
+(*
+ * Add new companry entry to model state - if it does not exist
+*)
+macro TimeoffAddCompany( company ) {
+    
+    if ( ~ company \in Timeoff_Companies ) {
+          Timeoff_Companies := Timeoff_Companies \union { company };
+    };
+}
+
+  #+END_SRC
+
+
+
+**** Operator: validate =User= entity
+     :PROPERTIES:
+     :CUSTOM_ID: valid_User
+     :END:
+
+  Operator =tla/valid_User.tla=
+
+   #+BEGIN_SRC text :tangle tla/valid_User.tla
+(*
+ * Validate data model entry user
+ *)
+valid_User( user ) ==
+                  user # Nil
+             /\   user.user_name # Nil
+             /\   user.user_lastname # Nil
+             /\   user.user_email # Nil
+   #+END_SRC
+
+
+**** Operator: Validate =Company= Entity 
+     :PROPERTIES:
+     :CUSTOM_ID: valid_Company
+     :END:
+
+  Operator =tla/valid_Company.tla=
+
+   #+BEGIN_SRC text :tangle tla/valid_Company.tla
+(*
+ * Validate data model entry companry
+ *)
+valid_Company( co ) ==
+                  co # Nil
+             /\   co.company_name # Nil
+   #+END_SRC
+
+
+** Correctness Criteria
+
+*** Invariant: verify formal model state
+    :PROPERTIES:
+    :CUSTOM_ID: correct_Database
+    :END:
+
+Verify formal model state in =tla/correct_Database.tla= as given by
+operators [[#valid_User][valid User]] and [[#valid_Company][valid Company]].
+
+  #+BEGIN_SRC text :tangle tla/correct_Database.tla
+(*
+ * All user and company entries in formal model state are valid
+*)
+correct_Database == \A user \in Timeoff_Users: valid_User(user)
+                 /\ \A co \in Timeoff_Companies: valid_Company(co)
+  #+END_SRC
+
+
+** Possibility Operators
+
+*** Service =/registerCompany(post)= Executes Successfully
+    :PROPERTIES:
+    :CUSTOM_ID: isCompanyRegistered
+    :END:
+
+File  =tla/isCompanyRegistered=
+
+  #+BEGIN_SRC text :tangle tla/isCompanyRegistered.tla
+(*
+ * Evaluate TRUE whe service /registerCompany(post)
+ * succeeds i.e. return status 200.
+*)
+isCompanyRegistered == InfrastructureServiceGetStatus("/registerCompany(post)") = "status_200"
+  #+END_SRC
+
+*** Service =/registerCompany(post)= Execution Fails
+    :PROPERTIES:
+    :CUSTOM_ID: isCompanyRegisteredFails
+    :END:
+
+    In file =tla/isCompanyRegisteredFails=
+
+  #+BEGIN_SRC text :tangle tla/isCompanyRegisteredFails.tla
+ (*
+ * Evaluate TRUE whe service /registerCompany(post)
+ * fails  i.e. returns status 400.
+ *)
+  isCompanyRegisteredFails == InfrastructureServiceGetStatus("/registerCompany(post)") = "status_400"
+  #+END_SRC
+
+
+
+
+
+* Environment Setup 
+
+
+** Setup =cnf/setup_companyRegistered.yaml=
+   :PROPERTIES:
+   :CUSTOM_ID: setup_companyRegistered
+   :END:
+
+The very contrived environmen setup below defines cardinality value
+=1= to domain =default_domain=, [[#resolver][resolved]] below. In the formal model,
+this translates to a definition of a set with one element plus a
+special value =Nil= for domain =default_domain=. Value =Nil= represent
+missing data in the formal model.
+
+The environment setup defines also one step with interface call to
+=/registerCompany(post)=. The definition does not restrict input to
+the interface call, and during model checking, environment model uses
+all possible value combinations for the interface call.
+
+
+
+#+BEGIN_SRC yaml :tangle cnf/setup_companyRegistered.yaml
+
+  - domain-extension:
+
+      # superflous cardinality 1 is the default
+    - domain: default_domain
+      cardinality: 1
+
+  - step-extension:
+    - interface: /registerCompany(post)
+
+
+#+END_SRC
+
+
+* Sbuilder configuration
+
+** Create resolver =cnf/timeoff-resolver.yaml=
+   :PROPERTIES:
+   :CUSTOM_ID: resolver
+   :END:
+
+A very contrived resolver maps all variables to one =deafult_domain=.
+
+#+BEGIN_SRC yaml :eval no :tangle cnf/timeoff-resolver.yaml
+    # This matches everyting - with default domain
+    -    Name: default-resolver
+         Matcher: !ruby/regexp /.*/
+         Rules: 
+          - Matcher: !ruby/regexp /.*/
+            Domain: default_domain
+
+#+END_SRC
+
+
+
+
+** Sbuilder configuration  =cnf/sbuider.yaml=
+
+The YAML configuration below combiness elements, presented in this
+document, and controls formal model translation.
+
+ #+BEGIN_SRC yaml :eval no :tangle cnf/sbuilder.yaml
+preferences:
+  debug-output: false
+
+extend:
+
+resolvers:
+    - url: cnf/timeoff-resolver.yaml
+
+# Use sbuilder API loader extension point      
+interfaces:
+    -  className: Sbuilder::ParamSetLoaderSwagger
+       infrastructureServices: true
+       url: ../stage/timeoff-swagger.yaml
+
+# Use sbuilder Snippet loader extension point            
+snippets:
+  - className: Sbuilder::SnippetLoaderSimple
+    snippets:
+    # Load 
+    - metatype: framework-svc
+      appName: Timeoff_Users
+      url: tla/Timeoff_Users.tla
+    - metatype: framework-svc
+      appName: Timeoff_Companies
+      url: tla/Timeoff_Companies.tla
+    - metatype: framework-svc
+      appName: TimeoffAddUser
+      url: tla/TimeoffAddUser.tla
+    - metatype: framework-svc
+      appName: TimeoffAddCompany
+      url: tla/TimeoffAddCompany.tla
+    - metatype: framework-svc
+      appName: proc_TimeoffRegisterCompany
+      url: tla/proc_TimeoffRegisterCompany.tla
+    - metatype: framework-svc
+      appName: TimeoffRegisterCompany
+      url: tla/TimeoffRegisterCompany.tla
+    # Define
+    - metatype: service_implementation
+      appName: /registerCompany(post)
+      name : TimeoffRegisterCompany
+  - className: Sbuilder::SnippetLoaderSimple
+    snippets:
+    - metatype: framework-svc
+      appName: isCompanyRegistered
+      url: tla/isCompanyRegistered.tla
+    - metatype: framework-svc
+      appName: isCompanyRegisteredFails
+      url: tla/isCompanyRegisteredFails.tla
+    - metatype: framework-svc
+      appName: correct_Database
+      url: tla/correct_Database.tla
+    - metatype: framework-svc
+      appName: valid_User
+      url: tla/valid_User.tla
+    - metatype: framework-svc
+      appName: valid_Company
+      url: tla/valid_Company.tla
+  
+
+# Configure setup       
+setups:
+    - setupDirectory: setup1
+    - setupDirectory: setup_companyRegistered
+      possibilities:
+         - isCompanyRegistered
+         - isCompanyRegisteredFails
+      extensions:
+         - url: cnf/setup_companyRegistered.yaml
+
+
+invariants:
+     - correct_Database: user and companry entries valid
+
+ #+END_SRC
+
+
+The configuration above
+
+- references YAML [[#resolver][resolver]] in file =cnf/timeoff-resolver.yaml=
+
+- references Swagger API interface definition in file
+  =../stage/timeoff-swagger.yaml=
+
+- loads TLA+ language snippets into Sbuilder formal model using a
+  plugin =Sbuilder::SnippetLoaderSimple=
+
+- associates interface =/registerCompany(post)= with TLA+ snippet 
+  =TimeoffRegisterCompany=
+
+-  instantiates plugin object =ethLoader= from class
+  =Sbuilder::Eth::Plugin::Plugin= implemented in =sbuilder-eth=
+   GEM.
+
+ - defines an empty setup =setup1= and =setup_companyRegistered=,
+   configured [[#setup_companyRegistered][above]]. Setup setup_companyRegistered defines two
+   possibility operators [[#isCompanyRegistered][isCompanyRegistered]] and
+   [[#isCompanyRegisteredFails][isCompanyRegisteredFails]]
+
+ - activates operator [[#correct_Database][correct_Database]] as an invariant to hold
+   universally
+
+
+* Smoke Run Using Setup =setup1=
+
+To validate that a formal model can be succesfully
+
+- generated to TLA+language,
+- processed by TLA+tools [[https://lamport.azurewebsites.net/tla/pluscal.html][PlusCal]] ,
+- and model checked by TLA+tools [[https://lamport.azurewebsites.net/tla/tlc.html][TLC]],
+
+run the following command
+
+#+name: run-model-check
+#+BEGIN_SRC sh :eval no-export :results output :exports both
+(SETUP=setup1; TLATOOLS_JAR=$(pwd)/java/tla2tools.jar; \
+   bundle exec sbuilder.rb generate $SETUP;  \
+   cd gen/$SETUP/tla &&  \
+   java -cp $TLATOOLS_JAR pcal.trans model; \
+   java -cp $TLATOOLS_JAR tlc2.TLC setup | \
+   tee ../tlc.out ) | \
+      grep 'No error has been found\|states generated' -
+#+END_SRC
+
+and observe the output with the following lines.
+
+#+RESULTS: run-model-check
+: Model checking completed. No error has been found.
+: 3 states generated, 2 distinct states found, 0 states left on queue.
+
+The output above shows only two distinct states found. First state is
+the initial state, and the second state corresponds to the situation,
+where environment model has processed all setup steps. For =setup1=,
+there were no stesp defined, unlike to [[#setup_companyRegistered][=setup_companyRegistered=]], which
+defines one step.
+
+* Fin								   :noexport:
+
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
+

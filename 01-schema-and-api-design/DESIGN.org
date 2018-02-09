@@ -1,0 +1,292 @@
+* Schema and API Design Results 				  :TOC_2_org:
+- [[Logical Schema][Logical Schema]]
+  - [[ER-diagram][ER-diagram]]
+  -  [[Entities][Entities]]
+- [[External Schema][External Schema]]
+  - [[Swagger Specification =timeoff-swagger.yaml=][Swagger Specification =timeoff-swagger.yaml=]]
+
+* Logical Schema
+
+** ER-diagram
+
+  #+BEGIN_SRC plantuml :noweb yes :file pics/logical-schema.jpg :eval no-export :exports results
+
+  ' skinparam defaultTextAlignment center
+
+  right footer Logical schema\n\n
+
+  class Users {
+      <<User-synopsis>>
+      ..
+      <<User-attributes()>>
+  }
+
+  class Companies {
+      <<Company-synopsis>>
+      ..
+      <<Company-attributes()>>
+  }
+
+
+
+  ' Relations
+  Users "*" - "1" Companies : works\nfor > 
+  
+
+
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:pics/logical-schema.jpg]]
+
+
+**  Entities
+
+*** Entity =User=
+
+#+name: User-schema
+#+BEGIN_SRC ruby :results code :eval no-export :exports none
+[
+  { 
+    name: "name",
+    entity: "user",
+    description: "name of user",
+  },
+  { 
+    name: "lastname",
+    entity: "user",
+    description: "lastname of user",
+  },
+  { 
+    name: "email",
+    entity: "user",
+    description: "email address of user",
+  },
+]
+#+END_SRC
+
+
+
+
+#+name: User-synopsis
+#+BEGIN_SRC raw :exports none :exports code
+Person using timeoff system
+#+END_SRC
+
+
+#+name: User-attributes
+#+BEGIN_SRC ruby :eval no-export :results output :noweb yes :exports results
+<<interface-common>>
+puts schemaAttributes(<<User-schema()>> )
+#+END_SRC
+
+Attributes:
+
+#+RESULTS: User-attributes
+: name: name of user
+: lastname: lastname of user
+: email: email address of user
+
+
+*** Entity: =Company=
+
+#+name: Company-schema
+#+BEGIN_SRC ruby :results code :eval no-export :exports none
+[
+  { 
+    name: "name",
+    entity: "company",
+    description: "name of company",
+  },
+]
+#+END_SRC
+
+#+name: Company-synopsis
+#+BEGIN_SRC raw :exports code
+Organization collecting timeoff data
+#+END_SRC
+
+Attributes:
+
+#+name: Company-attributes
+#+BEGIN_SRC ruby :eval no-export :results output :noweb yes :exports results
+<<interface-common>>
+puts schemaAttributes(<<Company-schema()>> )
+#+END_SRC
+
+#+RESULTS: Company-attributes
+: name: name of company
+
+  
+* External Schema
+
+** Swagger Specification =timeoff-swagger.yaml=
+
+#+name: swagger-def
+#+BEGIN_SRC ruby :eval no :exports none
+interface = {
+  "swagger" => "2.0",
+  "info" => {
+    "title" => "Timeoff demo",
+    "version" => "<<Interface-swagger-version>>",
+    "description" => "Timeoff interfaces",
+  },
+  "paths" =>  {
+    "/registerCompany" => {
+      "post" => {
+        "operationId" => "registerCompany",
+        "description" => "Register company",
+        "parameters"  =>  getAttributes(   <<User-schema()>> + <<Company-schema()>> ),
+        "responses"   => defaultResponses,
+      },
+   }},
+  "definitions" => {
+      "ErrorModel" => errorModel()
+   }, # definitions
+}
+#+END_SRC
+
+#+name: swagger-create
+#+BEGIN_SRC ruby :eval no-export :results output :noweb yes :exports results
+<<interface-common>>
+<<swagger-def>>
+puts "# swagger.yaml - timeoff-manager interface in swagger format"
+puts "# Generated #{Time.now.to_s} by #{ENV["USER"]}"
+puts interface.to_yaml
+#+END_SRC
+
+The swagger 2.0 format interface specification below defines one
+interface =registerCompany(post)= with request message composed of
+string parameters =user_name=, =user_lastname=, =user_email= and
+=company_name=, and a response message with fields =code= and
+=message=.
+
+#+RESULTS: swagger-create
+#+begin_example
+# swagger.yaml - timeoff-manager interface in swagger format
+# Generated 2018-01-30 13:01:38 +0200 by jj
+---
+swagger: '2.0'
+info:
+  title: Timeoff demo
+  version: 1.0.1
+  description: Timeoff interfaces
+paths:
+  "/registerCompany":
+    post:
+      operationId: registerCompany
+      description: Register company
+      parameters:
+      - name: user_name
+        type: string
+        in: query
+      - name: user_lastname
+        type: string
+        in: query
+      - name: user_email
+        type: string
+        in: query
+      - name: company_name
+        type: string
+        in: query
+      responses:
+        default:
+          description: Default response
+          schema:
+            "$ref": "#/definitions/ErrorModel"
+definitions:
+  ErrorModel:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+#+end_example
+
+
+
+#+BEGIN_SRC yaml :tangle ../stage/timeoff-swagger.yaml :eval no :noweb yes :exports none
+<<swagger-create()>>
+#+END_SRC
+
+
+* Fin								   :noexport:
+
+** Ruby enviroment
+
+#+name: interface-common
+#+BEGIN_SRC ruby :eval no
+require 'yaml'
+# require 'mustache'
+
+# Config partial location
+# Mustache.template_path = "mustache"
+
+
+
+# @return [Hash] default swagger resturn
+def defaultResponses
+  {
+     "default" => {
+            "description" => "Default response",
+	    "schema" => {
+	      "$ref" => "#/definitions/ErrorModel"
+             }
+      }
+}
+end
+
+# @return [Hash] default swagger resturn
+def errorModel
+{
+    "type" => "object",
+    "properties" =>  {
+	  "code" => {
+		"type" => "integer",
+		"format" => "int32",
+	 }, 
+         "message" => {
+	    "type" => "string",
+	 }
+     }
+}
+end
+
+# @return [Array<Hash>] for parameters in yamlString
+def getAttributes(  arrayOfHashes )
+  arrayOfHashes.map do |e|
+        { 
+	   "name" => "#{e[:entity]}_#{e[:name]}",
+	   "type" => "string",
+	   "in" => "query",
+	}
+  end
+end
+
+def schemaAttributes(  arrayOfHashes )
+  arrayOfHashes.map{ |e| "#{e[:name]}: #{e[:description]}"}
+end
+
+
+
+
+#+END_SRC
+
+
+** Interface-swagger-version
+
+#+name: Interface-swagger-version
+#+BEGIN_SRC raw
+1.0.1
+#+END_SRC
+
+
+** Emacs variables
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
+
+

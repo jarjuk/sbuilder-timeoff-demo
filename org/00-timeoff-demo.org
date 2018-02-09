@@ -1,0 +1,20 @@
+#+OPTIONS: toc:nil num:nil
+#+BEGIN_HTML
+---
+layout: page
+title: Demonstrated Scenario
+permalink: 00-timeoff-demo.html
+---
+#+END_HTML
+
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/org/00-timeoff-menu.org" 
+
+** Timeoff Login
+
+Browsing to =timeoff-management= application URL presents a login
+window:
+
+
+ [[file:pics/timeoff-login.jpg]]
+
+ In this window, click [[file:00-timeoff-register.org][Register new company]]

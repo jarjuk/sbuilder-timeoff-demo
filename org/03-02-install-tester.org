@@ -1,0 +1,21 @@
+#+OPTIONS: toc:nil  tags:nil       
+#+BEGIN_HTML
+---
+layout: default
+# title: No title should not show up in header
+permalink: 03-02-install-tester.html
+---
+#+END_HTML
+
+#+BEGIN_HTML
+ <h1 class="post-title">Virtual System Testing</h1>
+#+END_HTML
+
+
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/org/03-menu.org" 
+
+* Install Virtual System Test Runner GEMs
+
+Commands to execute in directory =03-virtual-system-test/=:
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/03-virtual-system-test/INSTALL-TESTER.org" 
+

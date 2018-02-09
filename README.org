@@ -1,0 +1,29 @@
+* Specification Driven Development Demo
+
+This [[http://jarjuk.github.io/sbuilder-timeoff-demo/][Specification Driven Development Demo]] presents a realization of a
+[[https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#development-architecture][development architecture]] to help in managing IT on-line openness.
+
+Particularly, it
+
+- aims at pointing out, how /Specification Driven Development/ can be
+  integrated with an existing legacy implementation
+- puts forward design artifacts and how these artifacts are
+  transferred from design step to another
+- explains, how to setup development architecture supporting
+  /Specification Driven Development/
+
+The demo uses an existing application (=timeoff-management=) as a
+target implementation. Only [[http://jarjuk.github.io/sbuilder-timeoff-demo/00-timeoff-demo.html][one simple interface]]
+(=/registerCompany(post)=) is specified to keep focus on the factors
+enabling /Specification Driven Development/.
+
+
+* Instructions
+
+- [[http://jarjuk.github.io/sbuilder-timeoff-demo/01-schema-and-api-design.html][Schema and API Desig]]
+- [[http://jarjuk.github.io/sbuilder-timeoff-demo/02-formal-modeling.html][Formal Modeling]]
+- [[http://jarjuk.github.io/sbuilder-timeoff-demo/03-virtual-system-test.html][Virtual System Testing]]
+
+* Licence 
+
+MIT

@@ -1,0 +1,24 @@
+#+OPTIONS: toc:nil num:nil
+#+BEGIN_HTML
+---
+layout: default
+page_title: Timeoff Company Registration Is Complete
+# permalink: timeoff-register-ok.html
+---
+#+END_HTML
+
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/org/00-timeoff-menu-hdr.org" 
+
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/org/00-timeoff-menu.org" 
+
+* Timeoff Company Registration Is Complete
+
+A =timeoff-management= window opens, with a confirmation
+"/Registration is complete/":
+
+[[file:pics/timeoff-register-ok.jpg]]
+
+
+
+
+

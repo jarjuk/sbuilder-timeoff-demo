@@ -1,0 +1,37 @@
+# runtime dependencies
+# gemspec
+
+source "https://rubygems.org"
+
+# TODO comment out :path 
+gem 'tla-trace-arch', "=0.1.1"  #, :path=>"../../tla-trace-arch"
+
+# development dependencies
+group :dev do
+
+  # rake
+  gem 'rake'
+
+  # rspec
+  gem 'rspec' # , "~>3.4.0"
+
+  # bundle exec guard
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'guard-shell'
+  gem 'rb-readline'
+
+  gem 'pry'
+  gem 'pry-doc'
+
+  # Web testing
+  gem 'selenium-webdriver'
+  gem 'capybara'
+  gem 'capybara-screenshot'
+
+  gem 'sqlite3-ruby'
+  gem 'hashformer', "~>0.3.1", ">=0.3.1"
+  
+end
+
+

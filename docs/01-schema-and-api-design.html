@@ -1,0 +1,161 @@
+---
+layout: page
+title: Schema and API Design
+permalink: 01-schema-and-api-design.html
+---
+
+<p>
+Schema design creates <i>Logical Schema</i> composed of <i>ER diagram</i> and
+<i>Entity</i> definitions. In API design, <i>Logical Schema</i> is mapped to an
+<i>External Schema</i> as <code>timeoff-swagger.yaml</code> using <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md">swagger 2.0</a> format
+of <a href="https://swagger.io/specification/">Open API specification</a>. This API specification is deployed into the
+staging directory <code>../stage</code>.
+</p>
+
+
+
+<div class="figure">
+<p><img src="pics/01-dev-overview.jpg" alt="01-dev-overview.jpg" />
+</p>
+</div>
+
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">1</span> Schema and API Design Results</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li><a href="#orgheadline1">Logical Schema</a>
+<ul class="org-ul">
+<li><a href="#orgheadline2">ER-diagram</a></li>
+<li><a href="#orgheadline3">Entities</a></li>
+</ul></li>
+<li><a href="#orgheadline4">External Schema</a>
+<ul class="org-ul">
+<li><a href="#orgheadline5">Swagger Specification <code>timeoff-swagger.yaml</code></a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">2</span> Logical Schema</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">2.1</span> ER-diagram</h3>
+<div class="outline-text-3" id="text-2-1">
+
+<div class="figure">
+<p><img src="pics/logical-schema.jpg" alt="logical-schema.jpg" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">2.2</span> Entities</h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="orgheadline7"><span class="section-number-4">2.2.1</span> Entity <code>User</code></h4>
+<div class="outline-text-4" id="text-2-2-1">
+<div class="org-src-container">
+
+<pre class="src src-raw" id="orgsrcblock1">Person using timeoff system
+</pre>
+</div>
+
+
+<p>
+Attributes:
+</p>
+
+<pre class="example">
+name: name of user
+lastname: lastname of user
+email: email address of user
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="orgheadline8"><span class="section-number-4">2.2.2</span> Entity: <code>Company</code></h4>
+<div class="outline-text-4" id="text-2-2-2">
+<div class="org-src-container">
+
+<pre class="src src-raw" id="orgsrcblock2">Organization collecting timeoff data
+</pre>
+</div>
+
+<p>
+Attributes:
+</p>
+
+<pre class="example">
+name: name of company
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4"><span class="section-number-2">3</span> External Schema</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">3.1</span> Swagger Specification <code>timeoff-swagger.yaml</code></h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+The swagger 2.0 format interface specification below defines one
+interface <code>registerCompany(post)</code> with request message composed of
+string parameters <code>user_name</code>, <code>user_lastname</code>, <code>user_email</code> and
+<code>company_name</code>, and a response message with fields <code>code</code> and
+<code>message</code>.
+</p>
+
+<pre class="example">
+# swagger.yaml - timeoff-manager interface in swagger format
+# Generated 2018-01-30 13:01:38 +0200 by jj
+---
+swagger: '2.0'
+info:
+  title: Timeoff demo
+  version: 1.0.1
+  description: Timeoff interfaces
+paths:
+  "/registerCompany":
+    post:
+      operationId: registerCompany
+      description: Register company
+      parameters:
+      - name: user_name
+        type: string
+        in: query
+      - name: user_lastname
+        type: string
+        in: query
+      - name: user_email
+        type: string
+        in: query
+      - name: company_name
+        type: string
+        in: query
+      responses:
+        default:
+          description: Default response
+          schema:
+            "$ref": "#/definitions/ErrorModel"
+definitions:
+  ErrorModel:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+</pre>
+</div>
+</div>
+</div>

@@ -1,0 +1,133 @@
+---
+layout: home
+page_title: Specification Driven Development Demo
+permalink: index.html
+---
+
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Need for Specification Driven Development?</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+In the future IT environment,
+</p>
+<div class="org-src-container">
+
+<pre class="src src-feature"><span style="color: #a020f0;">Given</span>  Technology trend such as 'micro services'
+<span style="color: #a020f0;">And</span>    Technology trend such as 'block chain'
+<span style="color: #a020f0;">And</span>    Technology trend such as 'IOT'
+<span style="color: #a020f0;">And</span>    Business environment trend  'increased openess of IT systems'
+<span style="color: #a020f0;">And</span>    Business environment trend  'need for new innovations'
+<span style="color: #a020f0;">When</span>   In the future 'implementations become more complex'
+<span style="color: #a020f0;">And</span>    In the future 'having more interfaces open for malicious attacks'
+<span style="color: #b22222;"># Then   Risk of Unfortunate IT failures</span>
+</pre>
+</div>
+
+<p>
+companies need to <a href="https://jarjuk.wordpress.com/2017/01/01/sbuilder-roadmap-v2-part1/#orgheadline3">manage their IT on-line openess</a> carefully to avoid
+the <code>Risk of Unfortunate IT failures</code>. 
+</p>
+
+<p>
+<a href="https://github.com/jarjuk/sbuilder-timeoff-demo">Specification Driven Development</a>, with adequate <a href="https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#development-architecture">development
+architecture</a> and <a href="https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#process">development process</a>, <a href="https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#orgheadline1">could</a> help companies in managing
+their IT on-line openess. As the <a href="https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#orgheadline4">result</a>, expect better systems due to
+understanding the problem better, getting the design right, and being
+able to write better code. Particulary, in the context of this demo,
+expect savings in test management, when using formal model to generate
+API traces, which represent end-to-end scenarios executing across
+system services in the formal model, and using these API traces to
+create unit tests on implementation. Savings in test management are
+realized, when, after executing each of the individual unit tests, the
+aggregate result can be interpreted as an execution of a "virtual"
+system test on the composite system - considerably easier than
+managing the execution a system test as a single unit.
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Objective of the Specification Driven Development Demo</h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+This <code>Specification Driven Development Demo</code> presents a realization of
+a <a href="https://jarjuk.wordpress.com/2018/01/16/specification-driven-development/#development-architecture">development architecture</a> to help in managing IT on-line openness.
+</p>
+
+<p>
+Particularly, it
+</p>
+
+<ul class="org-ul">
+<li>aims at pointing out, how <i>Specification Driven Development</i> can be
+integrated with an existing legacy implementation</li>
+<li>puts forward design artifacts and how these artifacts are
+transferred from design step to another</li>
+<li>explains, how to setup development architecture supporting
+<i>Specification Driven Development</i></li>
+</ul>
+
+<p>
+The demo uses an existing application (<code>timeoff-management</code>) as a
+target implementation. Only <a href="00-timeoff-demo.html">one simple interface</a>
+(<code>/registerCompany(post)</code>) is specified to keep focus on the factors
+enabling <i>Specification Driven Development</i>.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">Overview of Specification Driven Development Demo</h2>
+<div class="outline-text-2" id="text-orgheadline3">
+<p>
+The diagram below shows main architectural elemets corresponding
+<i>Specification Driven Development</i> design steps:
+</p>
+
+<ul class="org-ul">
+<li><a href="01-schema-and-api-design.html">Schema and API Design</a></li>
+<li><a href="02-formal-modeling.html">Formal Modeling</a></li>
+<li><a href="03-virtual-system-test.html">Virtual Systems Testing</a></li>
+</ul>
+
+<p>
+The diagram depicts also, how <code>timeoff-management</code> -application, used
+in this <code>Specification Driven Development Demo</code>, is retrived from a
+<a href="https://github.com/timeoff-management/application">GitHub repository</a>.
+</p>
+
+<p>
+Finally, the diagram presents directory <code>../stage/</code>, which is used to
+transfer design artifacts between design steps.
+</p>
+
+<ul class="org-ul">
+<li><code>timeoff-swagger.yaml</code>: specification of interface
+<code>/registerCompany(post)</code> created in <i>Schema and API Design</i></li>
+<li><code>API Trace</code>: Formal model execution traces created in <i>Formal
+Modeling</i> deployed in the the form of self extracting archive files
+to the staging directory</li>
+</ul>
+
+
+
+<div class="figure">
+<p><img src="pics/00-dev-overview.jpg" alt="00-dev-overview.jpg" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4">Code</h2>
+<div class="outline-text-2" id="text-orgheadline4">
+<p>
+Demo is avaibale in a <a href="https://github.com/jarjuk/sbuilder-timeoff-demo">GitHub repository</a> with MIT licence.
+</p>
+</div>
+</div>

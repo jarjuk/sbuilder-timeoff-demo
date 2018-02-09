@@ -1,0 +1,30 @@
+* Ruby version
+
+** Define =.ruby-version=					   :noexport:
+
+Using Ruby version 2.3.1
+
+#+BEGIN_SRC raw :eval no :tangle .ruby-version
+2.3.1
+#+END_SRC
+
+
+** Show ruby version used
+
+#+BEGIN_SRC sh :eval no-export :results output
+ruby --version
+#+END_SRC
+
+#+RESULTS:
+: ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
+
+
+* Fin								   :noexport:
+
+
+** Emacs variables
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
+

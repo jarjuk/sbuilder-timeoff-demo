@@ -1,0 +1,8 @@
+  - domain-extension:
+
+      # superflous cardinality 1 is the default
+    - domain: default_domain
+      cardinality: 1
+
+  - step-extension:
+    - interface: /registerCompany(post)

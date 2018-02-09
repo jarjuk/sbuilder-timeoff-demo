@@ -1,0 +1,32 @@
+#+DATE: [2018-01-30 ti 09:29]
+#+OPTIONS: toc:nil tags:nil               no default TOC
+#+BEGIN_HTML
+---
+layout: page
+title: Virtual System Testing
+permalink: 03-virtual-system-test.html
+---
+#+END_HTML
+
+#+INCLUDE: "~/work/sbuilder-timeoff-demo/org/03-menu.org" 
+
+=timeoff-management= application is downloaded to /Virtual System
+Testing/ from /GitHub/ repository. /Api Trace/ archives are extracted
+from =../stage= -directory into a /Input Folder/, where /Test Runner/
+can access /Test Case Steps/, and make calls to /System Under Test/
+(SUT) using /Lower Test/ interfaces, accesing and modifying SUT
+persistent state, and /Upper Tester/, interfacing via API
+request/response messages with the SUT.
+
+# include iamge from dev-architecture
+[[file:pics/03-dev-overview.jpg]]
+
+
+
+# * Install target application =timeoff-management=
+# [[file:03-01-install.org][Installation]]
+# * Install and configure test runner
+# [[file:03-02-install-tester.org][Tester installation]]
+# * Run tests
+# [[file:03-03-run-tests.org][Run tests]]
+

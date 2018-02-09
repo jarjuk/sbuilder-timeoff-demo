@@ -1,0 +1,73 @@
+preferences:
+  debug-output: false
+
+extend:
+
+resolvers:
+    - url: cnf/timeoff-resolver.yaml
+
+# Use sbuilder API loader extension point      
+interfaces:
+    -  className: Sbuilder::ParamSetLoaderSwagger
+       infrastructureServices: true
+       url: ../stage/timeoff-swagger.yaml
+
+# Use sbuilder Snippet loader extension point            
+snippets:
+  - className: Sbuilder::SnippetLoaderSimple
+    snippets:
+    # Load 
+    - metatype: framework-svc
+      appName: Timeoff_Users
+      url: tla/Timeoff_Users.tla
+    - metatype: framework-svc
+      appName: Timeoff_Companies
+      url: tla/Timeoff_Companies.tla
+    - metatype: framework-svc
+      appName: TimeoffAddUser
+      url: tla/TimeoffAddUser.tla
+    - metatype: framework-svc
+      appName: TimeoffAddCompany
+      url: tla/TimeoffAddCompany.tla
+    - metatype: framework-svc
+      appName: proc_TimeoffRegisterCompany
+      url: tla/proc_TimeoffRegisterCompany.tla
+    - metatype: framework-svc
+      appName: TimeoffRegisterCompany
+      url: tla/TimeoffRegisterCompany.tla
+    # Define
+    - metatype: service_implementation
+      appName: /registerCompany(post)
+      name : TimeoffRegisterCompany
+  - className: Sbuilder::SnippetLoaderSimple
+    snippets:
+    - metatype: framework-svc
+      appName: isCompanyRegistered
+      url: tla/isCompanyRegistered.tla
+    - metatype: framework-svc
+      appName: isCompanyRegisteredFails
+      url: tla/isCompanyRegisteredFails.tla
+    - metatype: framework-svc
+      appName: correct_Database
+      url: tla/correct_Database.tla
+    - metatype: framework-svc
+      appName: valid_User
+      url: tla/valid_User.tla
+    - metatype: framework-svc
+      appName: valid_Company
+      url: tla/valid_Company.tla
+  
+
+# Configure setup       
+setups:
+    - setupDirectory: setup1
+    - setupDirectory: setup_companyRegistered
+      possibilities:
+         - isCompanyRegistered
+         - isCompanyRegisteredFails
+      extensions:
+         - url: cnf/setup_companyRegistered.yaml
+
+
+invariants:
+     - correct_Database: user and companry entries valid

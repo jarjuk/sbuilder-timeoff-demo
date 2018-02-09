@@ -1,0 +1,84 @@
+* Installation 
+
+** Jekyll
+
+Install =jekyl= to document on github-pages
+#+BEGIN_SRC sh :eval  no
+bundle exec jekyll new docs
+#+END_SRC
+
+
+* Test server
+
+Assuming timeoff application has been installed
+
+
+#+BEGIN_SRC emacs-lisp :eval no-export :results output :dir 03-virtual-system-test/timeoff/
+(start-process "server" "buf-server" "xterm" "-hold" "-e" "npm" "start" )
+#+END_SRC
+
+#+RESULTS:
+
+and launch browser in url [[http://localhost:3000]]
+
+
+* Site documentation
+
+** Document directory =org=
+
+Site documentation in directory =org= in emacs org-mode.
+
+
+** Document configuration
+
+See varibale =publish-local-targets= in =.dir-locals.el=
+
+#+BEGIN_SRC sh :eval no-export :results output
+cat .dir-locals.el
+#+END_SRC
+
+#+RESULTS:
+: ;;; Directory Local Variables
+: ;;; For more information see (info "(emacs) Directory Variables")
+: 
+: ((nil
+:   (publish-local-targets . 
+: 			 ("local-pics" "local-noetes"))))
+
+
+** Create documentatation
+
+#+BEGIN_SRC emacs-lisp :results output
+(publish-local)
+#+END_SRC
+
+#+RESULTS:
+: 
+: "local-pics"
+: 
+: "local-notes"
+
+Create documenation using =projectile-org-publish-local-org= function
+in =.emacs=
+
+
+
+
+** Launch Jekyll and inspect results
+
+#+name: launch-jekyll
+#+BEGIN_SRC sh :eval no
+(cd docs; bunde exec jekyll serve)
+#+END_SRC
+
+#+BEGIN_SRC elisp :noweb yes :dir docs :results output :eval no-export :exports none
+(start-process "server" "buf-server" "xterm" "-hold" "-e" "bundle" "exec" "jekyll" "serve" "--port" "4002")
+#+END_SRC
+
+#+RESULTS:
+
+and open browser to [[http://localhost:4002/sbuilder_timeoff_demo/]]
+
+
+
+

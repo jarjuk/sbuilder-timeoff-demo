@@ -1,0 +1,42 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
+    ffi (1.9.21)
+    hashie (3.5.7)
+    json-schema (2.8.0)
+      addressable (>= 2.4)
+    mustache (1.0.5)
+    polyglot (0.3.5)
+    public_suffix (3.0.1)
+    thor (0.20.0)
+    tla-parser-s (0.2.5)
+      ffi (~> 1.9, >= 1.9.18)
+      thor (~> 0.19, >= 0.19.1)
+      treetop (~> 1.6, >= 1.6.3)
+    tla-sbuilder (0.3.9)
+      hashie (~> 3.3, >= 3.3.2)
+      json-schema (~> 2.5, >= 2.5.2)
+      mustache (~> 1.0, >= 1.0.3)
+      thor (~> 0.19, >= 0.19.1)
+      tla-parser-s (~> 0.2, >= 0.2.2)
+    tla-trace-arch (0.1.1)
+      tla-trace-filter (~> 0.0, >= 0.0.6)
+    tla-trace-filter (0.0.6)
+      mustache (~> 1.0, >= 1.0.3)
+      thor (~> 0.19, >= 0.19.1)
+      tla-sbuilder (~> 0.3, >= 0.3.9)
+      treetop (~> 1.6, >= 1.6.3)
+    treetop (1.6.9)
+      polyglot (~> 0.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  tla-sbuilder (= 0.3.9)
+  tla-trace-arch (= 0.1.1)
+
+BUNDLED WITH
+   1.15.4

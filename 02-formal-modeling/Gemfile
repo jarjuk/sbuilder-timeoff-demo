@@ -1,0 +1,4 @@
+source "https://rubygems.org"
+gem "tla-sbuilder", "=0.3.9"       # ,  :path => "../../tla-sbuilder"
+gem "tla-trace-arch", "=0.1.1"     # ,  :path => "../../tla-trace-arch"
+# comment out the paths!!

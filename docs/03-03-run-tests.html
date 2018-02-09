@@ -1,0 +1,203 @@
+---
+layout: default
+# title: No title should not show up in header
+permalink: 03-03-run-tests.html
+---
+
+<h1 class="post-title">Virtual System Testing</h1>
+
+
+<ul class="org-ul">
+<li><a href="03-virtual-system-test.html">Virtual System Testing</a> 
+<ul class="org-ul">
+<li><a href="03-01-install.html">Install <code>timeoff-management</code> Application for Virtual System Testing</a></li>
+<li><a href="03-02-install-tester.html">Install Virtual System Test Runner GEMs</a></li>
+<li><a href="03-test-runner.html">Implement Virtual System Test Runner</a></li>
+<li><a href="03-03-run-tests.html">Run Virtual System Tests</a></li>
+</ul></li>
+</ul>
+
+
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5"><span class="section-number-2">1</span> Run Virtual System Tests</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Commands to run virtual system test are issed within directory
+<code>03-virtual-system-test/</code>
+</p>
+</div>
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">1.1</span> Actions to Run Virtual System Tests</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li><a href="#orgheadline1">Extract API Traces Steps from Sh-archives in <code>stage</code> -Directory</a></li>
+<li><a href="#orgheadline2">Launch <code>test-runner.rb</code> for API Trace Steps in <code>virtual-system-test-input</code> -directory</a></li>
+<li><a href="#orgheadline3">Version information</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.2</span> Extract API Traces Steps from Sh-archives in <code>stage</code> -Directory</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+List self extracting archives in <code>../stage</code> directory
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock1">ls ../stage/*.sh
+</pre>
+</div>
+
+<p>
+and observe self extracting archive files with names corresponding
+<i>Possibility</i> operators used in <i>Formal Modeling</i>
+</p>
+
+<pre class="example">
+../stage/arch_isCompanyRegisteredFails.sh
+../stage/arch_isCompanyRegistered.sh
+</pre>
+
+<p>
+Extract test cases for interface <code>registerCompany(post)</code> into
+directory <code>virtual-system-test-input</code> with the following command:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #b22222;"># </span><span style="color: #b22222;">Cleanup previous tests</span>
+rm virtual-system-test-input/*
+<span style="color: #b22222;"># </span><span style="color: #b22222;">first extract</span>
+../stage/arch_isCompanyRegisteredFails.sh <span style="color: #8b2252;">\</span>
+        --dir virtual-system-test-input <span style="color: #8b2252;">\</span>
+          interface <span style="color: #8b2252;">'/registerCompany\\(post\\)'</span>  2&gt;&amp;1
+<span style="color: #b22222;"># </span><span style="color: #b22222;">second extract</span>
+../stage/arch_isCompanyRegistered.sh <span style="color: #8b2252;">\</span>
+       --dir virtual-system-test-input <span style="color: #8b2252;">\</span>
+        interface <span style="color: #8b2252;">'/registerCompany\\(post\\)'</span> 2&gt;&amp;1
+</pre>
+</div>
+
+<p>
+After these commands the content of <code>virtual-system-test-input</code>
+contains files:
+</p>
+
+<pre class="example">
+001-01-inp-TimeoffRegisterCompany.d6bb3494bdda70ae1ad54ebca1fc01ae890db84a
+001-02-api-TimeoffRegisterCompany.d6bb3494bdda70ae1ad54ebca1fc01ae890db84a
+001-03-ret-TimeoffRegisterCompany.d6bb3494bdda70ae1ad54ebca1fc01ae890db84a
+001-04-out-TimeoffRegisterCompany.d6bb3494bdda70ae1ad54ebca1fc01ae890db84a
+001-01-inp-TimeoffRegisterCompany.426759921aa71f5075e6fa6e33e828cfef8762ab
+001-02-api-TimeoffRegisterCompany.426759921aa71f5075e6fa6e33e828cfef8762ab
+001-03-ret-TimeoffRegisterCompany.426759921aa71f5075e6fa6e33e828cfef8762ab
+001-04-out-TimeoffRegisterCompany.426759921aa71f5075e6fa6e33e828cfef8762ab
+</pre>
+
+<p>
+with files name using format 'STEP-TYPE-INTERFACE.SHA1', where
+</p>
+
+<ul class="org-ul">
+<li><b>STEP</b>: is three digits for API trace step</li>
+<li><b>TYPE</b>: is Api trace step
+<ul class="org-ul">
+<li><code>01-inp</code> formal state before executing API trace STEP</li>
+<li><code>02-api</code> formal parameter values passed to INTERFACE</li>
+<li><code>03-ret</code> formal parameter return values for calling INTERFACE</li>
+<li><code>04-out</code> formal state after executing API trace STEP</li>
+</ul></li>
+<li><b>INTERFACE</b>: name of interface called in API trace STEP</li>
+<li><b>SHA1</b>: suffix is SHA1 of the archive from, which the file was
+extracted identifying virtual system test, of which API trace step
+is part of</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.3</span> Launch <code>test-runner.rb</code> for API Trace Steps in <code>virtual-system-test-input</code> -directory</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+To launch <a href="http://rspec.info/">RSpec</a> test runner to execute API trace step test cases in
+directory <code>virtual-system-test-input</code> issue the command
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock2">bundle exec rspec spec/virtual-system-test/test-runner.rb 2&gt;&amp;1
+</pre>
+</div>
+
+<p>
+and observe the output:
+</p>
+
+<pre class="example">
+------------------------------------------------------------------
+Step 001 - interface TimeoffRegisterCompany SHA1=d6bb3494bdda70ae1ad54ebca1fc01ae890db84a
+    Check beforeState
+    Start application
+.   Make API call
+    Check API response
+        Check API response - expect success
+.   Stop application
+    Check afterState
+------------------------------------------------------------------
+Step 001 - interface TimeoffRegisterCompany SHA1=426759921aa71f5075e6fa6e33e828cfef8762ab
+    Check beforeState
+    Start application
+.   Make API call
+    Check API response
+        Check API response - expect failure
+.   Stop application
+    Check afterState
+
+
+Finished in 13.14 seconds (files took 0.26002 seconds to load)
+4 examples, 0 failures
+</pre>
+
+<p>
+Test runner groups files in directory <code>virtual-system-test-input</code> by
+<code>SHA1</code>, <code>INTERFACE</code> and <code>STEP</code> and
+</p>
+
+<ul class="org-ul">
+<li>initializes and checks system state using API trace step before
+state</li>
+<li>calls API with parameter value corresponding the <code>INTERFACE</code> of the
+API trace step</li>
+<li>checks that API response corresponds to <code>INTERFACE</code> return values of
+the API trace step</li>
+<li>checks that system state, after the API call, matches after state of
+the API trace step</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.4</span> Version information</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Ruby language environment : <code>ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]</code></li>
+<li>Tester environment
+<ul class="org-ul">
+<li><code>rspec</code> GEM =  * rspec (3.7.0)=</li>
+<li><code>sqlite3-ruby</code> GEM =  * sqlite3-ruby (1.3.3)=</li>
+<li><code>capybara</code> GEM =  * capybara (2.17.0)=</li>
+<li><code>selenium-webdriver</code> GEM =  * selenium-webdriver (3.8.0)=</li>
+</ul></li>
+<li>Sbuilder Tools Set
+<ul class="org-ul">
+<li><code>tla-trace-arch</code> GEM create self extracting archive =  * tla-trace-arch (0.1.1)=</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>

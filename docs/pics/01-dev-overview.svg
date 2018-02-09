@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="574px" preserveAspectRatio="none" style="width:405px;height:574px;" version="1.1" viewBox="0 0 405 574" width="405px" zoomAndPan="magnify"><defs><filter height="300%" id="f15ioc06sxt2lk" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--cluster dev01--><polygon fill="#FFFFFF" filter="url(#f15ioc06sxt2lk)" points="23,34,33,24,359,24,359,349,349,359,23,359,23,34" style="stroke: #000000; stroke-width: 2.0;"/><line style="stroke: #000000; stroke-width: 2.0;" x1="349" x2="358" y1="34" y2="25"/><line style="stroke: #000000; stroke-width: 2.0;" x1="23" x2="349" y1="34" y2="34"/><line style="stroke: #000000; stroke-width: 2.0;" x1="349" x2="349" y1="34" y2="359"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="184" x="95" y="49.9951">Schema and API design</text><!--cluster logical_schema--><polygon fill="#FFFFFF" filter="url(#f15ioc06sxt2lk)" points="55,81,123,81,130,119.5938,327,119.5938,327,201,55,201,55,81" style="stroke: #000000; stroke-width: 2.0;"/><line style="stroke: #000000; stroke-width: 2.0;" x1="55" x2="130" y1="119.5938" y2="119.5938"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="55" x="62.5" y="95.9951">Logical</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="62" x="59" y="112.292">Schema</text><!--cluster stage--><polygon fill="#FFFFFF" filter="url(#f15ioc06sxt2lk)" points="22,419,32,409,236,409,236,492,226,502,22,502,22,419" style="stroke: #000000; stroke-width: 2.0;"/><line style="stroke: #000000; stroke-width: 2.0;" x1="226" x2="235" y1="419" y2="410"/><line style="stroke: #000000; stroke-width: 2.0;" x1="22" x2="226" y1="419" y2="419"/><line style="stroke: #000000; stroke-width: 2.0;" x1="226" x2="226" y1="419" y2="502"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="137" x="56.5" y="434.9951">Directory ../stage</text><!--entity swagger--><rect fill="#FEFECE" filter="url(#f15ioc06sxt2lk)" height="52.5938" style="stroke: #A80036; stroke-width: 1.5;" width="166" x="44" y="289.5"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="39" y="294.5"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="39" y="332.0938"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="76" x="89" y="312.4951">«swagger»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="146" x="54" y="328.792">timeoff-swagger.yaml</text><!--entity ERdiagram--><rect fill="#FEFECE" filter="url(#f15ioc06sxt2lk)" height="36.2969" style="stroke: #A80036; stroke-width: 1.5;" width="98" x="205.5" y="141"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="200.5" y="146"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="200.5" y="167.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="78" x="215.5" y="163.9951">ER diagram</text><!--entity Entities--><rect fill="#FEFECE" filter="url(#f15ioc06sxt2lk)" height="36.2969" style="stroke: #A80036; stroke-width: 1.5;" width="71" x="98.75" y="141"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="93.75" y="146"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="93.75" y="167.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="51" x="108.75" y="163.9951">Entities</text><!--entity swagger_deploy--><rect fill="#FEFECE" filter="url(#f15ioc06sxt2lk)" height="36.2969" style="stroke: #A80036; stroke-width: 1.5;" width="166" x="44" y="450"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="39" y="455"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="39" y="476.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="146" x="54" y="472.9951">timeoff-swagger.yaml</text><!--link Entities to swagger--><!--link logical_schema to swagger--><path d="M57.7824,201.046 C57.7599,201.6831 57.7402,202.3241 57.7234,202.9684 C57.6563,205.5459 57.6363,208.1787 57.6743,210.8487 C57.7504,216.1885 58.0589,221.677 58.6873,227.1689 C59.9442,238.1528 62.4812,249.1503 67,259 C71.5443,268.905 78.729,277.891 86.5706,285.621 " fill="none" id="logical_schema-swagger" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="90.4643,289.314,86.6878,280.218,86.8368,285.8728,81.182,286.0219,90.4643,289.314" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="52" x="68" y="238.5669">external</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="51" x="68.5" y="253.6997">schema</text><!--link swagger to swagger_deploy--><path d="M127,342.786 C127,371.527 127,417.533 127,444.7548 " fill="none" id="swagger-swagger_deploy" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="127,449.938,131,440.938,127,444.938,123,440.938,127,449.938" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="42" x="128" y="388.0669">deploy</text><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="166" x="227" y="537.2822">Schema and API -design overview</text><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="0" x="393" y="548.9229"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="0" x="393" y="560.5635"/><!--
+@startuml
+
+  ' skinparam defaultTextAlignment center
+    right footer Schema and API -design overview\n\n
+
+   node "Schema and API design" as dev01 {
+
+       folder "Logical\nSchema" as logical_schema {
+           component "ER diagram" as ERdiagram
+	   component Entities 
+       }
+
+       component "timeoff-swagger.yaml" as swagger << swagger >> 
+
+       Entities  -[hidden]-> swagger 
+       logical_schema  -> swagger : external\nschema
+   }
+   node "Directory ../stage" as stage {
+      component "timeoff-swagger.yaml" as swagger_deploy
+
+   }
+
+  swagger ..> swagger_deploy : deploy
+
+@enduml
+
+PlantUML version 1.2017.16(Sun Sep 03 13:53:37 EEST 2017)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 1.8.0_161-b12
+Operating System: Linux
+OS Version: 3.13.0-139-generic
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

@@ -1,0 +1,6 @@
+    # This matches everyting - with default domain
+    -    Name: default-resolver
+         Matcher: !ruby/regexp /.*/
+         Rules: 
+          - Matcher: !ruby/regexp /.*/
+            Domain: default_domain
