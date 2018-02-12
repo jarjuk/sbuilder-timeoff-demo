@@ -94,4 +94,7 @@ transfer design artifacts between design steps.
 Demo is avaibale in a [[https://github.com/jarjuk/sbuilder-timeoff-demo][GitHub repository]] with MIT licence.
 
 
+* Comment and Feedback
 
+You can comment or give feeback on [[https://www.reddit.com/r/tlaplus/comments/7wnsyu/tlatools_to_generate_test_cases_on][reddit]] or directly sending gmail to
+the account name of this GitHub -page.
