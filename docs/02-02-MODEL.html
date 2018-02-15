@@ -22,38 +22,38 @@ permalink: 02-02-MODEL.html
 <div id="outline-container-orgheadline26" class="outline-2">
 <h2 id="orgheadline26"><span class="section-number-2">1</span> Instructions to Create Formal Model</h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-orgheadline12" class="outline-3">
-<h3 id="orgheadline12"><span class="section-number-3">1.1</span> Formal Model Elements</h3>
+</div><div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">1.1</span> Formal Model Elements</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li><a href="#orgheadline1">Application Model</a>
 <ul class="org-ul">
 <li><a href="#orgheadline2">Spefication Snippets</a>
 <ul class="org-ul">
-<li><a href="#orgheadline3">Model State</a></li>
-<li><a href="#orgheadline4">Model Service</a></li>
-<li><a href="#orgheadline5">Actions and Operators</a></li>
+<li><a href="#MODEL-STATE">Model State</a></li>
+<li><a href="#orgheadline3">Model Service</a></li>
+<li><a href="#orgheadline4">Actions and Operators</a></li>
 </ul></li>
-<li><a href="#orgheadline6">Correctness Criteria</a>
+<li><a href="#orgheadline5">Correctness Criteria</a>
 <ul class="org-ul">
 <li><a href="#correct_Database">Invariant: verify formal model state</a></li>
 </ul></li>
-<li><a href="#orgheadline7">Possibility Operators</a>
+<li><a href="#orgheadline6">Possibility Operators</a>
 <ul class="org-ul">
 <li><a href="#isCompanyRegistered">Service <code>/registerCompany(post)</code> Executes Successfully</a></li>
 <li><a href="#isCompanyRegisteredFails">Service <code>/registerCompany(post)</code> Execution Fails</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#orgheadline8">Environment Setup</a>
+<li><a href="#orgheadline7">Environment Setup</a>
 <ul class="org-ul">
 <li><a href="#setup_companyRegistered">Setup <code>cnf/setup_companyRegistered.yaml</code></a></li>
 </ul></li>
-<li><a href="#orgheadline9">Sbuilder configuration</a>
+<li><a href="#orgheadline8">Sbuilder configuration</a>
 <ul class="org-ul">
 <li><a href="#resolver">Create resolver <code>cnf/timeoff-resolver.yaml</code></a></li>
-<li><a href="#orgheadline10">Sbuilder configuration  <code>cnf/sbuider.yaml</code></a></li>
+<li><a href="#orgheadline9">Sbuilder configuration  <code>cnf/sbuider.yaml</code></a></li>
 </ul></li>
-<li><a href="#orgheadline11">Smoke Run Using Setup <code>setup1</code></a></li>
+<li><a href="#orgheadline10">Smoke Run Using Setup <code>setup1</code></a></li>
 </ul>
 </div>
 </div>
@@ -64,10 +64,12 @@ permalink: 02-02-MODEL.html
 </div><div id="outline-container-orgheadline2" class="outline-4">
 <h4 id="orgheadline2"><span class="section-number-4">1.2.1</span> Spefication Snippets</h4>
 <div class="outline-text-4" id="text-1-2-1">
-</div><div id="outline-container-orgheadline3" class="outline-5">
-<h5 id="orgheadline3"><span class="section-number-5">1.2.1.1</span> Model State</h5>
-<div class="outline-text-5" id="text-1-2-1-1">
-</div><ol class="org-ol"><li><a id="orgheadline13"></a>Model Entity <code>Users</code><br  /><div class="outline-text-6" id="text-1-2-1-1-1">
+</div><div id="outline-container-orgheadline14" class="outline-5">
+<h5 id="MODEL-STATE"><a id="orgheadline14"></a><span class="section-number-5">1.2.1.1</span> Model State</h5>
+<div class="outline-text-5" id="text-MODEL-STATE">
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline12"></a>Model Entity <code>Users</code><br  /><div class="outline-text-6" id="text-1-2-1-1-1">
 <p>
 State of entity <code>Users</code> is modeled using tla+ module
 <code>tla/Timeoff_Users.tla</code>
@@ -82,7 +84,7 @@ Timeoff_Users = {};
 </div></li>
 
 
-<li><a id="orgheadline14"></a>Model Entity <code>Companies</code><br  /><div class="outline-text-6" id="text-1-2-1-1-2">
+<li><a id="orgheadline13"></a>Model Entity <code>Companies</code><br  /><div class="outline-text-6" id="text-1-2-1-1-2">
 <p>
 State of entity <code>Companies</code> is modeled using tla+ module
 <code>tla/Timeoff_Companies.tla</code>
@@ -99,8 +101,8 @@ Timeoff_Companies = {};
 
 
 
-<div id="outline-container-orgheadline4" class="outline-5">
-<h5 id="orgheadline4"><span class="section-number-5">1.2.1.2</span> Model Service</h5>
+<div id="outline-container-orgheadline3" class="outline-5">
+<h5 id="orgheadline3"><span class="section-number-5">1.2.1.2</span> Model Service</h5>
 <div class="outline-text-5" id="text-1-2-1-2">
 </div><ol class="org-ol"><li><a id="orgheadline15"></a><code>tla/TimeoffRegisterCompany.tla</code><br  /><div class="outline-text-6" id="text-1-2-1-2-1">
 <div class="org-src-container">
@@ -161,8 +163,8 @@ proc_TimeoffRegisterCompany_exit:
 </div>
 
 
-<div id="outline-container-orgheadline5" class="outline-5">
-<h5 id="orgheadline5"><span class="section-number-5">1.2.1.3</span> Actions and Operators</h5>
+<div id="outline-container-orgheadline4" class="outline-5">
+<h5 id="orgheadline4"><span class="section-number-5">1.2.1.3</span> Actions and Operators</h5>
 <div class="outline-text-5" id="text-1-2-1-3">
 </div><ol class="org-ol"><li><a id="orgheadline17"></a>Action: Add new <code>user</code><br  /><div class="outline-text-6" id="text-1-2-1-3-1">
 <p>
@@ -247,8 +249,8 @@ valid_Company( co ) ==
 </div>
 
 
-<div id="outline-container-orgheadline6" class="outline-4">
-<h4 id="orgheadline6"><span class="section-number-4">1.2.2</span> Correctness Criteria</h4>
+<div id="outline-container-orgheadline5" class="outline-4">
+<h4 id="orgheadline5"><span class="section-number-4">1.2.2</span> Correctness Criteria</h4>
 <div class="outline-text-4" id="text-1-2-2">
 </div><div id="outline-container-orgheadline21" class="outline-5">
 <h5 id="correct_Database"><a id="orgheadline21"></a><span class="section-number-5">1.2.2.1</span> Invariant: verify formal model state</h5>
@@ -272,8 +274,8 @@ correct_Database == \A user \in Timeoff_Users: valid_User(user)
 </div>
 
 
-<div id="outline-container-orgheadline7" class="outline-4">
-<h4 id="orgheadline7"><span class="section-number-4">1.2.3</span> Possibility Operators</h4>
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="orgheadline6"><span class="section-number-4">1.2.3</span> Possibility Operators</h4>
 <div class="outline-text-4" id="text-1-2-3">
 </div><div id="outline-container-orgheadline22" class="outline-5">
 <h5 id="isCompanyRegistered"><a id="orgheadline22"></a><span class="section-number-5">1.2.3.1</span> Service <code>/registerCompany(post)</code> Executes Successfully</h5>
@@ -319,8 +321,8 @@ In file <code>tla/isCompanyRegisteredFails</code>
 
 
 
-<div id="outline-container-orgheadline8" class="outline-3">
-<h3 id="orgheadline8"><span class="section-number-3">1.3</span> Environment Setup</h3>
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">1.3</span> Environment Setup</h3>
 <div class="outline-text-3" id="text-1-3">
 </div><div id="outline-container-orgheadline24" class="outline-4">
 <h4 id="setup_companyRegistered"><a id="orgheadline24"></a><span class="section-number-4">1.3.1</span> Setup <code>cnf/setup_companyRegistered.yaml</code></h4>
@@ -359,8 +361,8 @@ all possible value combinations for the interface call.
 </div>
 
 
-<div id="outline-container-orgheadline9" class="outline-3">
-<h3 id="orgheadline9"><span class="section-number-3">1.4</span> Sbuilder configuration</h3>
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">1.4</span> Sbuilder configuration</h3>
 <div class="outline-text-3" id="text-1-4">
 </div><div id="outline-container-orgheadline25" class="outline-4">
 <h4 id="resolver"><a id="orgheadline25"></a><span class="section-number-4">1.4.1</span> Create resolver <code>cnf/timeoff-resolver.yaml</code></h4>
@@ -385,8 +387,8 @@ A very contrived resolver maps all variables to one <code>deafult_domain</code>.
 
 
 
-<div id="outline-container-orgheadline10" class="outline-4">
-<h4 id="orgheadline10"><span class="section-number-4">1.4.2</span> Sbuilder configuration  <code>cnf/sbuider.yaml</code></h4>
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">1.4.2</span> Sbuilder configuration  <code>cnf/sbuider.yaml</code></h4>
 <div class="outline-text-4" id="text-1-4-2">
 <p>
 The YAML configuration below combiness elements, presented in this
@@ -507,8 +509,8 @@ universally</li>
 </div>
 
 
-<div id="outline-container-orgheadline11" class="outline-3">
-<h3 id="orgheadline11"><span class="section-number-3">1.5</span> Smoke Run Using Setup <code>setup1</code></h3>
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">1.5</span> Smoke Run Using Setup <code>setup1</code></h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 To validate that a formal model can be succesfully

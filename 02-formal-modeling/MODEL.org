@@ -22,6 +22,9 @@
 ** Spefication Snippets
 
 *** Model State
+    :PROPERTIES:
+    :CUSTOM_ID: MODEL-STATE
+    :END:
 
 **** Model Entity =Users= 
 
