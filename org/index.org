@@ -8,7 +8,29 @@ permalink: index.html
 #+END_HTML
 
 
+
 # INCLUDE: "~/work/sbuilder-timeoff-demo/org/00-menu.org" 
+
+#+HTML: <br/>
+* Summary
+
+# color code taken from exorted html for feature source block
+#+HTML: <div class="src src-feature" style="background-color:LightGray;font-size:140%">
+
+ - *Subject*: Formal methods in Application Management
+ - *Idea*: Generate /API trace/ for a /Formal Model/ and distribute it
+   to developers for extracting /API Steps/ and running /Units Tests/
+   on the /Implementation/. Interpret aggregate result of executing
+   individual /Unit Tests/ as executing a "/Virtual System Test/"".
+
+ - *Gain*: Get design rights, write better code. Managing /Units Tests/
+   separately is cheaper than managing /Systems Test/ as a single
+   unit. /Formal Model/ and /Implementation/ conform each other.
+
+ - *See also*: [[https://jarjuk.wordpress.com/2016/03/03/sbuilder-1-problem/][Amazon finds]] formal method useful in real world
+   context. It [[https://jarjuk.wordpress.com/2017/03/15/running-sbuilder-benchmarks/][scales up]].
+#+HTML: </div>
+
 
 * Need for Specification Driven Development?
 
