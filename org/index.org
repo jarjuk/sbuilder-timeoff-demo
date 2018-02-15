@@ -23,7 +23,7 @@ permalink: index.html
    on the /Implementation/. Interpret aggregate result of executing
    individual /Unit Tests/ as executing a "/Virtual System Test/"".
 
- - *Gain*: Get design rights, write better code. Managing /Units Tests/
+ - *Gain*: Get design right, write better code. Managing /Units Tests/
    separately is cheaper than managing /Systems Test/ as a single
    unit. /Formal Model/ and /Implementation/ conform each other.
 
