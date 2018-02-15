@@ -69,6 +69,9 @@ macro TimeoffRegisterCompany( input ) {
 
 
 **** =tla/proc_TimeoffRegisterCompany.tla=
+     :PROPERTIES:
+     :CUSTOM_ID: SVC-CODE
+     :END:
 
   #+BEGIN_SRC text :tangle tla/proc_TimeoffRegisterCompany.tla
 (*
