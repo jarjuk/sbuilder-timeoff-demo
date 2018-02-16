@@ -1,5 +1,10 @@
 2018-02-16  jj  <jj@horsti>
 
+	* 01-schema-and-api-design/DESIGN.org (Attributes): CUSTOM_IDs
+	SWAGGER-SPEC
+
+	* 02-formal-modeling/MODEL.org: CUSTOM_IDs: APPLICATION-MODEL
+
 	* 03-virtual-system-test/TEST-RUNNER.org (Sbuilder): added
 	CUSTOM_IDs MAPPERS, VALUE-MAPPER, SCHEMA-MAPPER
 

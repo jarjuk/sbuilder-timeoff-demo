@@ -18,6 +18,9 @@
 - [[Smoke Run Using Setup =setup1=][Smoke Run Using Setup =setup1=]]
 
 * Application Model
+  :PROPERTIES:
+  :CUSTOM_ID: APPLICATION-MODEL
+  :END:
 
 ** Spefication Snippets
 
@@ -241,6 +244,9 @@ isCompanyRegistered == InfrastructureServiceGetStatus("/registerCompany(post)") 
 
 
 * Environment Setup 
+  :PROPERTIES:
+  :CUSTOM_ID: ENV-SETUPS
+  :END:
 
 
 ** Setup =cnf/setup_companyRegistered.yaml=

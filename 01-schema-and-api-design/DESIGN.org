@@ -121,6 +121,9 @@ puts schemaAttributes(<<Company-schema()>> )
 * External Schema
 
 ** Swagger Specification =timeoff-swagger.yaml=
+   :PROPERTIES:
+   :CUSTOM_ID: SWAGGER-SPEC
+   :END:
 
 #+name: swagger-def
 #+BEGIN_SRC ruby :eval no :exports none
