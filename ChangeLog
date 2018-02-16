@@ -1,7 +1,8 @@
 2018-02-16  jj  <jj@horsti>
 
 	* 01-schema-and-api-design/DESIGN.org (Attributes): CUSTOM_IDs
-	SWAGGER-SPEC
+	SWAGGER-SPEC, LOGICAL-SCHEMA, ER-DIAGRAM, ENTITIES
+
 
 	* 02-formal-modeling/MODEL.org: CUSTOM_IDs: APPLICATION-MODEL
 

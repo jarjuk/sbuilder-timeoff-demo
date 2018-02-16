@@ -1,13 +1,19 @@
 * Schema and API Design Results 				  :TOC_2_org:
 - [[Logical Schema][Logical Schema]]
   - [[ER-diagram][ER-diagram]]
-  -  [[Entities][Entities]]
+  - [[Entities][Entities]]
 - [[External Schema][External Schema]]
   - [[Swagger Specification =timeoff-swagger.yaml=][Swagger Specification =timeoff-swagger.yaml=]]
 
 * Logical Schema
+  :PROPERTIES:
+  :CUSTOM_ID: LOGICAL-SCHEMA
+  :END:
 
 ** ER-diagram
+   :PROPERTIES:
+   :CUSTOM_ID: ER-DIAGRAM
+   :END:
 
   #+BEGIN_SRC plantuml :noweb yes :file pics/logical-schema.jpg :eval no-export :exports results
 
@@ -40,7 +46,10 @@
   [[file:pics/logical-schema.jpg]]
 
 
-**  Entities
+** Entities
+   :PROPERTIES:
+   :CUSTOM_ID: ENTITIES
+   :END:
 
 *** Entity =User=
 
