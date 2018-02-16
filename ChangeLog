@@ -1,3 +1,8 @@
+2018-02-16  jj  <jj@horsti>
+
+	* 03-virtual-system-test/TEST-RUNNER.org (Sbuilder): added
+	CUSTOM_IDs MAPPERS, VALUE-MAPPER, SCHEMA-MAPPER
+
 2018-02-12  jj  <jj@horsti>
 
 	* org/index.org (-): comment and feedback secition added

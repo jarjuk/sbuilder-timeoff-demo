@@ -32,22 +32,22 @@ categories: VirtualSystemTest RSpec Code
 <li><a href="#orgheadline5">Test Case Input Directory and Interface to Test</a></li>
 <li><a href="#orgheadline6">Iterate Test Case <code>iterateApiTraceSteps</code></a></li>
 </ul></li>
-<li><a href="#orgheadline7">Map from Formal Model to Implementation</a>
+<li><a href="#MAPPERS">Map from Formal Model to Implementation</a>
 <ul class="org-ul">
-<li><a href="#orgheadline8">Map Data Values from Formal Model to Implementation</a></li>
-<li><a href="#orgheadline9">Map Schema from Formal Model to Implementation</a></li>
+<li><a href="#VALUE-MAPPER">Map Data Values from Formal Model to Implementation</a></li>
+<li><a href="#SCHEMA-MAPPER">Map Schema from Formal Model to Implementation</a></li>
 </ul></li>
-<li><a href="#orgheadline10">Action <code>:before TestCase</code></a></li>
-<li><a href="#orgheadline11">Action <code>:request Api</code></a></li>
-<li><a href="#orgheadline12">Action <code>:response API</code></a></li>
-<li><a href="#orgheadline13">Action <code>:after TestCase</code></a></li>
-<li><a href="#orgheadline14">System Adaptors</a>
+<li><a href="#orgheadline7">Action <code>:before TestCase</code></a></li>
+<li><a href="#orgheadline8">Action <code>:request Api</code></a></li>
+<li><a href="#orgheadline9">Action <code>:response API</code></a></li>
+<li><a href="#orgheadline10">Action <code>:after TestCase</code></a></li>
+<li><a href="#orgheadline11">System Adaptors</a>
 <ul class="org-ul">
-<li><a href="#orgheadline15">Read system state <code>readDatabase</code></a></li>
-<li><a href="#orgheadline16">Check system state <code>checkDatabase</code></a></li>
+<li><a href="#orgheadline12">Read system state <code>readDatabase</code></a></li>
+<li><a href="#orgheadline13">Check system state <code>checkDatabase</code></a></li>
 </ul></li>
 </ul></li>
-<li><a href="#orgheadline17">Test Runner Implementation</a></li>
+<li><a href="#orgheadline14">Test Runner Implementation</a></li>
 </ul>
 </div>
 </div>
@@ -148,12 +148,14 @@ and ending with
 </div>
 
 
-<div id="outline-container-orgheadline7" class="outline-4">
-<h4 id="orgheadline7"><span class="section-number-4">1.3.3</span> Map from Formal Model to Implementation</h4>
-<div class="outline-text-4" id="text-1-3-3">
-</div><div id="outline-container-orgheadline8" class="outline-5">
-<h5 id="orgheadline8"><span class="section-number-5">1.3.3.1</span> Map Data Values from Formal Model to Implementation</h5>
-<div class="outline-text-5" id="text-1-3-3-1">
+<div id="outline-container-orgheadline17" class="outline-4">
+<h4 id="MAPPERS"><a id="orgheadline17"></a><span class="section-number-4">1.3.3</span> Map from Formal Model to Implementation</h4>
+<div class="outline-text-4" id="text-MAPPERS">
+</div>
+
+<div id="outline-container-orgheadline15" class="outline-5">
+<h5 id="VALUE-MAPPER"><a id="orgheadline15"></a><span class="section-number-5">1.3.3.1</span> Map Data Values from Formal Model to Implementation</h5>
+<div class="outline-text-5" id="text-VALUE-MAPPER">
 <p>
 Lambda functions to transform data values from formal model data space
 to implementation data space:
@@ -184,9 +186,9 @@ formalLastName2implementationLastName = -&gt;(formalLastName) <span style="color
 </div>
 
 
-<div id="outline-container-orgheadline9" class="outline-5">
-<h5 id="orgheadline9"><span class="section-number-5">1.3.3.2</span> Map Schema from Formal Model to Implementation</h5>
-<div class="outline-text-5" id="text-1-3-3-2">
+<div id="outline-container-orgheadline16" class="outline-5">
+<h5 id="SCHEMA-MAPPER"><a id="orgheadline16"></a><span class="section-number-5">1.3.3.2</span> Map Schema from Formal Model to Implementation</h5>
+<div class="outline-text-5" id="text-SCHEMA-MAPPER">
 <p>
 Schema transformations use <a href="https://github.com/deseretbook/hashformer">hashformer</a> GEM, <a href="https://blog.mikebourgeous.com/2016/11/22/hashformer-transform-data-in-ruby/">a Ruby Hash-based DSL</a>, for
 transforming data from formal model space to implementation space
@@ -232,8 +234,8 @@ schemaStatus = {
 </div>
 
 
-<div id="outline-container-orgheadline10" class="outline-4">
-<h4 id="orgheadline10"><span class="section-number-4">1.3.4</span> Action <code>:before TestCase</code></h4>
+<div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="orgheadline7"><span class="section-number-4">1.3.4</span> Action <code>:before TestCase</code></h4>
 <div class="outline-text-4" id="text-1-3-4">
 <div class="org-src-container">
 
@@ -265,8 +267,8 @@ appStart
 
 
 
-<div id="outline-container-orgheadline11" class="outline-4">
-<h4 id="orgheadline11"><span class="section-number-4">1.3.5</span> Action <code>:request Api</code></h4>
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="orgheadline8"><span class="section-number-4">1.3.5</span> Action <code>:request Api</code></h4>
 <div class="outline-text-4" id="text-1-3-5">
 <div class="org-src-container">
 
@@ -291,8 +293,8 @@ ui_register_form_submig
 </div>
 
 
-<div id="outline-container-orgheadline12" class="outline-4">
-<h4 id="orgheadline12"><span class="section-number-4">1.3.6</span> Action <code>:response API</code></h4>
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">1.3.6</span> Action <code>:response API</code></h4>
 <div class="outline-text-4" id="text-1-3-6">
 <div class="org-src-container">
 
@@ -313,8 +315,8 @@ support_test_progress <span style="color: #8b2252;">"    Check API response"</sp
 </div>
 
 
-<div id="outline-container-orgheadline13" class="outline-4">
-<h4 id="orgheadline13"><span class="section-number-4">1.3.7</span> Action <code>:after TestCase</code></h4>
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="orgheadline10"><span class="section-number-4">1.3.7</span> Action <code>:after TestCase</code></h4>
 <div class="outline-text-4" id="text-1-3-7">
 <div class="org-src-container">
 
@@ -340,11 +342,11 @@ close_database
 
 
 
-<div id="outline-container-orgheadline14" class="outline-4">
-<h4 id="orgheadline14"><span class="section-number-4">1.3.8</span> System Adaptors</h4>
+<div id="outline-container-orgheadline11" class="outline-4">
+<h4 id="orgheadline11"><span class="section-number-4">1.3.8</span> System Adaptors</h4>
 <div class="outline-text-4" id="text-1-3-8">
-</div><div id="outline-container-orgheadline15" class="outline-5">
-<h5 id="orgheadline15"><span class="section-number-5">1.3.8.1</span> Read system state <code>readDatabase</code></h5>
+</div><div id="outline-container-orgheadline12" class="outline-5">
+<h5 id="orgheadline12"><span class="section-number-5">1.3.8.1</span> Read system state <code>readDatabase</code></h5>
 <div class="outline-text-5" id="text-1-3-8-1">
 <div class="org-src-container">
 
@@ -360,8 +362,8 @@ close_database
 </div>
 
 
-<div id="outline-container-orgheadline16" class="outline-5">
-<h5 id="orgheadline16"><span class="section-number-5">1.3.8.2</span> Check system state <code>checkDatabase</code></h5>
+<div id="outline-container-orgheadline13" class="outline-5">
+<h5 id="orgheadline13"><span class="section-number-5">1.3.8.2</span> Check system state <code>checkDatabase</code></h5>
 <div class="outline-text-5" id="text-1-3-8-2">
 <div class="org-src-container">
 
@@ -390,8 +392,8 @@ close_database
 
 
 
-<div id="outline-container-orgheadline17" class="outline-3">
-<h3 id="orgheadline17"><span class="section-number-3">1.4</span> Test Runner Implementation</h3>
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">1.4</span> Test Runner Implementation</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 For the implementation refer to <a href="https://github.com/jarjuk/sbuilder-timeoff-demo/blob/master/03-virtual-system-test/spec/virtual-system-test/test-runner.rb">code</a> in GitHub repo.

@@ -147,8 +147,14 @@ end # iterateTestCases
 
 
 ** Map from Formal Model to Implementation
+   :PROPERTIES:
+   :CUSTOM_ID: MAPPERS
+   :END:
 
 *** Map Data Values from Formal Model to Implementation
+    :PROPERTIES:
+    :CUSTOM_ID: VALUE-MAPPER
+    :END:
 
 Lambda functions to transform data values from formal model data space
 to implementation data space:
@@ -176,6 +182,9 @@ end
 
 
 *** Map Schema from Formal Model to Implementation
+    :PROPERTIES:
+    :CUSTOM_ID: SCHEMA-MAPPER
+    :END:
 
 Schema transformations use [[https://github.com/deseretbook/hashformer][hashformer]] GEM, [[https://blog.mikebourgeous.com/2016/11/22/hashformer-transform-data-in-ruby/][a Ruby Hash-based DSL]], for
 transforming data from formal model space to implementation space
