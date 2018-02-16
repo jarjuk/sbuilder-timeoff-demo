@@ -257,8 +257,8 @@ isCompanyRegistered == InfrastructureServiceGetStatus("/registerCompany(post)") 
 The very contrived environmen setup below defines cardinality value
 =1= to domain =default_domain=, [[#resolver][resolved]] below. In the formal model,
 this translates to a definition of a set with one element plus a
-special value =Nil= for domain =default_domain=. Value =Nil= represent
-missing data in the formal model.
+special value =Nil=. Value =Nil= represent missing data in the formal
+model.
 
 The environment setup defines also one step with interface call to
 =/registerCompany(post)=. The definition does not restrict input to
