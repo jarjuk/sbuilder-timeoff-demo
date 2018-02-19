@@ -211,6 +211,9 @@ correct_Database == \A user \in Timeoff_Users: valid_User(user)
 
 
 ** Possibility Operators
+   :PROPERTIES:
+   :CUSTOM_ID: POSSIBILITIES
+   :END:
 
 *** Service =/registerCompany(post)= Executes Successfully
     :PROPERTIES:
