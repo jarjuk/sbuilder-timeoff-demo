@@ -55,6 +55,9 @@ Timeoff_Companies = {};
 *** Model Service
 
 **** =tla/TimeoffRegisterCompany.tla= 
+     :PROPERTIES:
+     :CUSTOM_ID: SVC-MACRO
+     :END:
 
   #+BEGIN_SRC text :tangle tla/TimeoffRegisterCompany.tla
 (*

@@ -1,3 +1,8 @@
+2018-02-19  jj  <jj@horsti>
+
+	* 02-formal-modeling/MODEL.org (Timeoff_Companies): CUSTOM_IDs:
+	SVC-MACRO
+
 2018-02-16  jj  <jj@horsti>
 
 	* 01-schema-and-api-design/DESIGN.org (Attributes): CUSTOM_IDs
