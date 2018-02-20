@@ -109,6 +109,9 @@ end # virtual system tests
 
 
 ** Iterate Test Cases
+   :PROPERTIES:
+   :CUSTOM_ID: ITERATE
+   :END:
 
 *** Test Case Input Directory and Interface to Test
 
@@ -231,6 +234,9 @@ schemaStatus = {
 
 
 ** Action =:before TestCase=
+   :PROPERTIES:
+   :CUSTOM_ID: ACTION-BEFORE
+   :END:
 
 #+name: before-testCase
 #+BEGIN_SRC ruby :eval no
@@ -262,6 +268,9 @@ appStart
 
 
 ** Action =:request Api=
+   :PROPERTIES:
+   :CUSTOM_ID: ACTION-REQUEST
+   :END:
 
 #+name: call-api
 #+BEGIN_SRC ruby :eval no
@@ -284,6 +293,9 @@ ui_register_form_submig
 
 
 ** Action =:response API=
+   :PROPERTIES:
+   :CUSTOM_ID: ACTION-RESPONSE
+   :END:
 
 #+name: check-api-return
 #+BEGIN_SRC ruby :eval no
@@ -305,6 +317,9 @@ end
 
 
 ** Action =:after TestCase= 
+   :PROPERTIES:
+   :CUSTOM_ID: ACTION-AFTER
+   :END:
 
 #+name: after-testCase
 #+BEGIN_SRC ruby :eval no
