@@ -4,7 +4,8 @@
   - [[Spefication Snippets][Spefication Snippets]]
     - [[Model State][Model State]]
     - [[Model Service][Model Service]]
-    - [[Actions and Operators][Actions and Operators]]
+    - [[Actions Modifying Persistent State][Actions Modifying Persistent State]]
+    - [[Validation Operators][Validation Operators]]
   - [[Correctness Criteria][Correctness Criteria]]
     - [[Invariant: verify formal model state][Invariant: verify formal model state]]
   - [[Possibility Operators][Possibility Operators]]
@@ -116,7 +117,10 @@ proc_TimeoffRegisterCompany_exit:
   #+END_SRC
 
 
-*** Actions and Operators
+*** Actions Modifying Persistent State
+    :PROPERTIES:
+    :CUSTOM_ID: STATE-MACROS
+    :END:
 
 **** Action: Add new =user=
 
@@ -153,7 +157,10 @@ macro TimeoffAddCompany( company ) {
 
   #+END_SRC
 
-
+*** Validation Operators
+    :PROPERTIES:
+    :CUSTOM_ID: VALIDATION-OPERATORS
+    :END:
 
 **** Operator: validate =User= entity
      :PROPERTIES:
