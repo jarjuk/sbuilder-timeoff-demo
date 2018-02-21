@@ -260,7 +260,7 @@ isCompanyRegistered == InfrastructureServiceGetStatus("/registerCompany(post)") 
    :CUSTOM_ID: setup_companyRegistered
    :END:
 
-The very contrived environmen setup below defines cardinality value
+The very contrived environment setup below defines cardinality value
 =1= to domain =default_domain=, [[#resolver][resolved]] below. In the formal model,
 this translates to a definition of a set with one element plus a
 special value =Nil=. Value =Nil= represent missing data in the formal
