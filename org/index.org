@@ -33,6 +33,9 @@ permalink: index.html
 
 
 * Need for Specification Driven Development?
+  :PROPERTIES:
+  :CUSTOM_ID: NEED
+  :END:
 
 In the future IT environment,
 #+BEGIN_SRC feature
