@@ -91,6 +91,9 @@ and observe output =No error has been found=:
 : Model checking completed. No error has been found.
 
 * Generatetate API Trace for Possibility Operator =isCompanyRegistered=
+  :PROPERTIES:
+  :CUSTOM_ID: GEN-API-TRACE-1
+  :END:
 
 Run model checking for possibility operator =isCompanyRegistered= in
 setup =setup_companyRegistered= using the same formal model in file

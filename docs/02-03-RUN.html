@@ -26,17 +26,17 @@ Following commands are executed within directory <code>02-formal-modeling</code>
 </p>
 </div>
 
-<div id="outline-container-orgheadline7" class="outline-3">
-<h3 id="orgheadline7"><span class="section-number-3">1.1</span> Action to Run Model Checker and Create Api Trace Archive</h3>
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">1.1</span> Action to Run Model Checker and Create Api Trace Archive</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li><a href="#orgheadline1">List setups</a></li>
 <li><a href="#orgheadline2">Generate Formal Model for setup <code>setup_companyRegistered</code></a></li>
 <li><a href="#check-for-correctness">Check Correctness of Formal Model in setup  <code>setup_companyRegistered</code></a></li>
-<li><a href="#orgheadline3">Generatetate API Trace for Possibility Operator <code>isCompanyRegistered</code></a></li>
-<li><a href="#orgheadline4">Generate APItrace for Possibility Operator <code>isCompanyRegisteredFails</code></a></li>
-<li><a href="#orgheadline5">Distribute setup <code>export SETUP=setup_companyRegistered</code> achieve</a></li>
-<li><a href="#orgheadline6">Versions used</a></li>
+<li><a href="#GEN-API-TRACE-1">Generatetate API Trace for Possibility Operator <code>isCompanyRegistered</code></a></li>
+<li><a href="#orgheadline3">Generate APItrace for Possibility Operator <code>isCompanyRegisteredFails</code></a></li>
+<li><a href="#orgheadline4">Distribute setup <code>export SETUP=setup_companyRegistered</code> achieve</a></li>
+<li><a href="#orgheadline5">Versions used</a></li>
 </ul>
 </div>
 </div>
@@ -109,8 +109,8 @@ gen/setup_companyRegistered/tla/setup.tla
 </div>
 
 
-<div id="outline-container-orgheadline8" class="outline-3">
-<h3 id="check-for-correctness"><a id="orgheadline8"></a><span class="section-number-3">1.4</span> Check Correctness of Formal Model in setup  <code>setup_companyRegistered</code></h3>
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="check-for-correctness"><a id="orgheadline7"></a><span class="section-number-3">1.4</span> Check Correctness of Formal Model in setup  <code>setup_companyRegistered</code></h3>
 <div class="outline-text-3" id="text-check-for-correctness">
 <p>
 Model check formal model in file
@@ -139,9 +139,9 @@ Model checking completed. No error has been found.
 </div>
 </div>
 
-<div id="outline-container-orgheadline3" class="outline-3">
-<h3 id="orgheadline3"><span class="section-number-3">1.5</span> Generatetate API Trace for Possibility Operator <code>isCompanyRegistered</code></h3>
-<div class="outline-text-3" id="text-1-5">
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="GEN-API-TRACE-1"><a id="orgheadline8"></a><span class="section-number-3">1.5</span> Generatetate API Trace for Possibility Operator <code>isCompanyRegistered</code></h3>
+<div class="outline-text-3" id="text-GEN-API-TRACE-1">
 <p>
 Run model checking for possibility operator <code>isCompanyRegistered</code> in
 setup <code>setup_companyRegistered</code> using the same formal model in file
@@ -215,8 +215,8 @@ Step 1 interface /registerCompany(post)
 </div>
 
 
-<div id="outline-container-orgheadline4" class="outline-3">
-<h3 id="orgheadline4"><span class="section-number-3">1.6</span> Generate APItrace for Possibility Operator <code>isCompanyRegisteredFails</code></h3>
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.6</span> Generate APItrace for Possibility Operator <code>isCompanyRegisteredFails</code></h3>
 <div class="outline-text-3" id="text-1-6">
 <p>
 Check possibility <code>isCompanyRegisteredFails</code> in setup
@@ -286,8 +286,8 @@ Step 1 interface /registerCompany(post)
 </div>
 
 
-<div id="outline-container-orgheadline5" class="outline-3">
-<h3 id="orgheadline5"><span class="section-number-3">1.7</span> Distribute setup <code>export SETUP=setup_companyRegistered</code> achieve</h3>
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">1.7</span> Distribute setup <code>export SETUP=setup_companyRegistered</code> achieve</h3>
 <div class="outline-text-3" id="text-1-7">
 <p>
 Copy archive files <code>gen/$SETUP/arch_*.sh</code> the to staging directory
@@ -320,8 +320,8 @@ and observe files being copied to <code>../stage</code> -directory:
 
 
 
-<div id="outline-container-orgheadline6" class="outline-3">
-<h3 id="orgheadline6"><span class="section-number-3">1.8</span> Versions used</h3>
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">1.8</span> Versions used</h3>
 <div class="outline-text-3" id="text-1-8">
 <ul class="org-ul">
 <li>TLA+tools: 
